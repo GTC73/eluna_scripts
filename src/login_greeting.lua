@@ -18,16 +18,16 @@ local CLASS_DRUID        = 11--德鲁伊
 
 --职业表
 local ClassName = {
-	[CLASS_WARRIOR]      = "战士",
-	[CLASS_PALADIN]      = "圣骑士",
-	[CLASS_HUNTER]       = "猎人",
-	[CLASS_ROGUE]        = "盗贼",
-	[CLASS_PRIEST]       = "牧师",
-	[CLASS_DEATH_KNIGHT] = "死亡骑士",
-	[CLASS_SHAMAN]       = "萨满",
-	[CLASS_MAGE]         = "法师",
-	[CLASS_WARLOCK]      = "术士",
-	[CLASS_DRUID]        = "德鲁伊",
+	[CLASS_WARRIOR]      = "Warrior",
+	[CLASS_PALADIN]      = "Paladin",
+	[CLASS_HUNTER]       = "Hunter",
+	[CLASS_ROGUE]        = "Rogue",
+	[CLASS_PRIEST]       = "Priest",
+	[CLASS_DEATH_KNIGHT] = "Death Knight",
+	[CLASS_SHAMAN]       = "Shaman",
+	[CLASS_MAGE]         = "Mage",
+	[CLASS_WARLOCK]      = "Warlock",
+	[CLASS_DRUID]        = "Druid",
 }
 
 local function GetPlayerInfo(player)--得到玩家信息
@@ -36,25 +36,25 @@ local function GetPlayerInfo(player)--得到玩家信息
 	local team = ""
 	local teamType = player:GetTeam()
 	if teamType == TEAM_ALLIANCE then
-		team = "|cFF0070d0联盟|r"
+		team = "|cFF0070d0Alliance|r"
 	elseif teamType == TEAM_HORDE then
-		team = "|cFFF000A0部落|r"
+		team = "|cFFF000A0Horde|r"
 	end
-	return string.format("%s%s玩家[|cFF00FF00|Hplayer:%s|h%s|h|r]",team,class,name,name)
+	return string.format("%s%sPlayer[|cFF00FF00|Hplayer:%s|h%s|h|r]",team,class,name,name)
 end
 
 local function OnPlayerFirstLogin(event, player)--玩家首次登录
-	SendWorldMessage("|cFFFF0000[系统]|r欢迎"..GetPlayerInfo(player).." 首次进入|cFFFF0000全栈魔兽。|r")
+	SendWorldMessage("|cFFFF0000[System]|rWelcome"..GetPlayerInfo(player).."'s first login of |cFFFF0000World Of Warcraft.|r")
 	print("Player is Created. GUID:"..player:GetGUIDLow())
 end
 
 local function OnPlayerLogin(event, player)--玩家登录
-	SendWorldMessage("|cFFFF0000[系统]|r欢迎"..GetPlayerInfo(player).." 上线。")
+	SendWorldMessage("|cFFFF0000[System]|rWelcom"..GetPlayerInfo(player).." logging in.")
 	print("Player is Login. GUID:"..player:GetGUIDLow())
 end
 
 local function OnPlayerLogout(event, player)--玩家登出
-	SendWorldMessage("|cFFFF0000[系统]|r"..GetPlayerInfo(player).." 下线。")
+	SendWorldMessage("|cFFFF0000[System]|r"..GetPlayerInfo(player).." logging off.")
 	print("Player is Logout. GUID:"..player:GetGUIDLow())
 end
 
