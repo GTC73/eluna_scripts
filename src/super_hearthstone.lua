@@ -879,12 +879,12 @@ function Stone.AddGossip(player, item, id)
         end
     end
     if(id ~= MMENU)then--添加返回主菜单
-        player:GossipMenuAddItem(GOSSIP_ICON_CHAT,"主菜单", 0, MMENU*0x100)
+        player:GossipMenuAddItem(GOSSIP_ICON_CHAT,"Main Menu", 0, MMENU*0x100)
     else
         if(player:GetGMRank()>=3)then--是GM
-            player:GossipMenuAddItem(GOSSIP_ICON_CHAT,"GM功能", 0, GMMENU*0x100)
+            player:GossipMenuAddItem(GOSSIP_ICON_CHAT,"GM Functions", 0, GMMENU*0x100)
         end
-        player:GossipMenuAddItem(GOSSIP_ICON_CHAT, "在线总时间：|cFF000080"..Stone.GetTimeASString(player).."|r", 0, MMENU*0x100)
+        player:GossipMenuAddItem(GOSSIP_ICON_CHAT, "Total online time:|cFF000080"..Stone.GetTimeASString(player).."|r", 0, MMENU*0x100)
     end
 
     player:GossipSendMenu(1, item)--发送菜单
