@@ -25,12 +25,12 @@ local LOGIN_CHECK = true -- 是否在登录时检查技能
 ----------------------------------------------------
 
 --CLASS					职业
-local CLASS_WARRIOR 		= 1		--战士
+local CLASS_WARRIOR 			= 1		--战士
 local CLASS_PALADIN			= 2		--圣骑士
 local CLASS_HUNTER			= 3		--猎人
 local CLASS_ROGUE			= 4		--盗贼
 local CLASS_PRIEST			= 5		--牧师
-local CLASS_DEATH_KNIGHT	= 6		--死亡骑士
+local CLASS_DEATH_KNIGHT		= 6		--死亡骑士
 local CLASS_SHAMAN			= 7		--萨满
 local CLASS_MAGE			= 8		--法师
 local CLASS_WARLOCK			= 9		--术士
