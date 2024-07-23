@@ -56,7 +56,7 @@ local function CheckCD(guidLow)
 end
 
 local function OnPlayerChat(event, player, msg, chattype, lang)
-	local playerTeam = player:GetTeam() == 0 and "[联盟]" or "[部落]"
+	local playerTeam = player:GetTeam() == 0 and "[Alliance]" or "[Horde]"
 
     -- if msg:sub(1, 4) ~= "@sj " then
     --     return true
@@ -76,12 +76,12 @@ local function OnPlayerChat(event, player, msg, chattype, lang)
     local guid = player:GetGUIDLow()
     local canChat, diffTime = CheckCD(guid)
     if not canChat then
-        player:SendAreaTriggerMessage(string.format("你说话太快了！%d秒后可再次发言", CooldownTime-diffTime))
+        player:SendAreaTriggerMessage(string.format("You are trying to chat way too fast！You can send message again aftger %d seconds.", CooldownTime-diffTime))
         return false
     end
 
     local playerName = player:GetName()
-    local worldMsg = string.format([=[|cff7DFF00[世界]%s|Hplayer:%s|h[|r|cFF%s%s|r|cff7DFF00]|h: %s|r]=],
+    local worldMsg = string.format([=[|cff7DFF00[World]%s|Hplayer:%s|h[|r|cFF%s%s|r|cff7DFF00]|h: %s|r]=],
         playerTeam, playerName, Class[player:GetClass()], playerName, msg)
     SendWorldMessage(worldMsg)
     return false
@@ -92,7 +92,8 @@ local function OnPlayerLogout(_, player)
 end
 
 local function OnPlayerFirstLogin(_, player)
-    player:SendBroadcastMessage("|cFFFF0000[功能提示]|r在聊天框输入的消息前加上@可转变为世界聊天")
+    player:SendBroadcastMessage("|cFFFF0000[Hint]|rPut @ in front of your messages can change into World chat.在聊天框输入的消息前加上@可转变为世界聊天")
+	-- 在聊天框输入的消息前加上@可转变为世界聊天
 end
 
 RegisterPlayerEvent(4, OnPlayerLogout) --PLAYER_EVENT_ON_LOGOUT
