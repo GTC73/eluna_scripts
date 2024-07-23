@@ -92,7 +92,7 @@ local function OnPlayerLogout(_, player)
 end
 
 local function OnPlayerFirstLogin(_, player)
-    player:SendBroadcastMessage("|cFFFF0000[Hint]|rPut @ in front of your messages can change into World chat.在聊天框输入的消息前加上@可转变为世界聊天")
+    player:SendBroadcastMessage("|cFFFF0000[Hint]|rAdding @ before a message typed in the chat box turns it into global chat.")
 	-- 在聊天框输入的消息前加上@可转变为世界聊天
 end
 
