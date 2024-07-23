@@ -115,7 +115,7 @@ function ST.SummonGNPC(player)--召唤商人
 end
 
 
-function ST.SummonENPC(player)--召唤附魔
+function ST.SummonENPC(player)--召唤 enchantment
     ST.SummonNPC(player, ST.NPCID1)
 end
 
@@ -219,11 +219,11 @@ local Stone={
     OutCombat=function(player)--脱离战斗
         if(player:IsInCombat())then
             player:ClearInCombat()
-            player:SendAreaTriggerMessage("你已经脱离战斗")
-            player:SendBroadcastMessage("你已经脱离战斗。")
+            player:SendAreaTriggerMessage("You have exited combat.")
+            player:SendBroadcastMessage("You have exited combat.")
         else
-            player:SendAreaTriggerMessage("你并没有在战斗。")
-            player:SendBroadcastMessage("你并没有在战斗。")
+            player:SendAreaTriggerMessage("You are not in combat.")
+            player:SendBroadcastMessage("You are not in combat.")
         end
     end,
 
@@ -231,9 +231,9 @@ local Stone={
         player:AdvanceSkillsToMax()
         player:SendBroadcastMessage("当前技能熟练度已经达到最大值")
     end,
-    MaxHealth=function(player)    --回复生命
+    MaxHealth=function(player)    --回复 health
         player:SetHealth(player:GetMaxHealth())
-        player:SendBroadcastMessage("生命值已经回满。")
+        player:SendBroadcastMessage(" health值已经回满。")
     end,
     ResetTalents = function(player)--重置天赋
         player:ResetTalents(true)--免费
@@ -252,21 +252,21 @@ local Stone={
 
     RepairAll=function(player)--修理装备
         player:DurabilityRepairAll(true,1,false)
-        player:SendBroadcastMessage("修理完所有装备。")
+        player:SendBroadcastMessage("all equipments repaired")
     end,
 
     SaveToDB=function(player)--保存数据
         player:SaveToDB()
-        player:SendAreaTriggerMessage("保存数据完成")
+        player:SendAreaTriggerMessage("Saving successfully.")
     end,
 
     Logout=function(player)--返回选择角色
-        player:SendAreaTriggerMessage("正在返回选择角色菜单")
+        player:SendAreaTriggerMessage("Returning to character menu.")
         player:LogoutPlayer(true)
     end,
 
     LogoutNosave=function(player)--不保存数据,返回选择角色
-        player:SendAreaTriggerMessage("正在返回选择角色菜单")
+        player:SendAreaTriggerMessage("Returning to character menu.")
         player:LogoutPlayer(false)
     end,
     UnBind=function(player)    --副本解绑
@@ -276,11 +276,11 @@ local Stone={
             if(mapid~=nowmap)then
                 player:UnbindInstance(v[1],v[2])
             else
-                player:SendBroadcastMessage("你所在的当前副本无法解除绑定。")
+                player:SendBroadcastMessage("Current dungeon lock can't be removed.")
             end
         end
-        player:SendAreaTriggerMessage("已经解除所有副本的绑定")
-        player:SendBroadcastMessage("已经解除所有副本的绑定。")
+        player:SendAreaTriggerMessage("All dungeons lock removed.")
+        player:SendBroadcastMessage("All dungeons lock removed.")
     end,
     --[[登录标志
     AT_LOGIN_RENAME            = 0x01,
@@ -295,45 +295,45 @@ local Stone={
     ResetName=function(player,code)--修改名字
         local target=player:GetSelection()
         if(target and (target:GetTypeId()==player:GetTypeId()))then
-            ResetPlayer(target, 0x1, "名字")
+            ResetPlayer(target, 0x1, "Name")
         else
-            player:SendAreaTriggerMessage("请选中一个玩家。")
+            player:SendAreaTriggerMessage("Please choose a player.")
         end
     end,
     ResetFace=function(player)
         ResetPlayer(player, 0x8, "外貌")
     end,
     ResetRace=function(player)
-        ResetPlayer(player, 0x80, "种族")
+        ResetPlayer(player, 0x80, "race")
     end,
     ResetFaction=function(player)
         ResetPlayer(player, 0x40, "阵营")
     end,
     ResetSpell=function(player)
-        ResetPlayer(player, 0x2, "所有法术")
+        ResetPlayer(player, 0x2, "All spells")
     end,
 }
 
 local Menu={
     [MMENU]={--主菜单
-        {FUNC, "传送回家",         Stone.GoHome,    GOSSIP_ICON_CHAT,        false,"是否传送回|cFFF0F000家|r ?"},
-        {FUNC, "记录位置",         Stone.SetHome,    GOSSIP_ICON_INTERACT_1, false,"是否设置当前位置为|cFFF0F000家|r ?"},
-        {FUNC, "在线银行",         Stone.OpenBank,    GOSSIP_ICON_MONEY_BAG},
-        {MENU, "地图传送",         TPMENU,            GOSSIP_ICON_BATTLE},
-        {MENU, "其他功能",        MMENU+0x10,        GOSSIP_ICON_INTERACT_1},
-        {MENU, "双重附魔",        ENCMENU,        GOSSIP_ICON_TABARD},
-        {FUNC, "解除副本绑定",     Stone.UnBind,    GOSSIP_ICON_INTERACT_1, false,"是否解除所有副本绑定 ?"},
-        {FUNC, "召唤随身商人",     ST.SummonGNPC,    GOSSIP_ICON_MONEY_BAG},
-        --{FUNC, "附魔大师NPC",    ST.SummonENPC,    GOSSIP_ICON_TABARD},
-        {MENU, "职业技能训练师",   MMENU+0x20,        GOSSIP_ICON_BATTLE},
-        {MENU, "专业技能训练师",   MMENU+0x30,        GOSSIP_ICON_BATTLE},
+        {FUNC, "Teleport home",         Stone.GoHome,    GOSSIP_ICON_CHAT,        false,"Teleport to |cFFF0F000Home|r ?"},
+        {FUNC, "Set home location",         Stone.SetHome,    GOSSIP_ICON_INTERACT_1, false,"Setting current location as |cFFF0F000Home|r ?"},
+        {FUNC, "Bank",         Stone.OpenBank,    GOSSIP_ICON_MONEY_BAG},
+        {MENU, "Map teleport",         TPMENU,            GOSSIP_ICON_BATTLE},
+        {MENU, "Others",        MMENU+0x10,        GOSSIP_ICON_INTERACT_1},
+        {MENU, "Double enchantments",        ENCMENU,        GOSSIP_ICON_TABARD},
+        {FUNC, "Remove dungeons loc",     Stone.UnBind,    GOSSIP_ICON_INTERACT_1, false,"Do you wish to remove all dungeons lock ?"},
+        {FUNC, "Summon mobile vendor",     ST.SummonGNPC,    GOSSIP_ICON_MONEY_BAG},
+        --{FUNC, " enchantment大师NPC",    ST.SummonENPC,    GOSSIP_ICON_TABARD},
+        {MENU, "Class skills trainer",   MMENU+0x20,        GOSSIP_ICON_BATTLE},
+        {MENU, "Profession skills trainer",   MMENU+0x30,        GOSSIP_ICON_BATTLE},
         -- {FUNC, "强制脱离战斗",     Stone.OutCombat,GOSSIP_ICON_CHAT},
         {FUNC, "副本宠物加光环",   ST.AddAuraToPet,   GOSSIP_ICON_BATTLE},
     },
     [MMENU+0x10]={--其他功能
-        {FUNC, "解除虚弱",         Stone.WeakOut,        GOSSIP_ICON_INTERACT_1, false,"是否解除虚弱，并回复生命 ?"},
-        {FUNC, "重置天赋"    ,    Stone.ResetTalents,    GOSSIP_ICON_TRAINER,    false,"确认重置天赋 ?"},
-        {FUNC, "武器熟练度满值",Stone.WSkillsToMax,    GOSSIP_ICON_TRAINER,    false,"确认把武器熟练度加满 ?"},
+        {FUNC, "解除虚弱",         Stone.WeakOut,        GOSSIP_ICON_INTERACT_1, false,"是否解除虚弱，并回复 health ?"},
+        {FUNC, "Talents reset"    ,    Stone.ResetTalents,    GOSSIP_ICON_TRAINER,    false,"Confirm talents reset ?"},
+        {FUNC, "武器熟练度满值",Stone.WSkillsToMax,    GOSSIP_ICON_TRAINER,    false,"Confirm把武器熟练度加满 ?"},
         {FUNC, "修理所有装备",    Stone.RepairAll,    GOSSIP_ICON_VENDOR,        false,"需要花费金币修理装备 ?"},
         -- {FUNC, "修改名字",        Stone.ResetName,    GOSSIP_ICON_CHAT,        false,"是否更改名字？\n|cFFFFFF00需要重新登录才能修改。|r"},
         -- {FUNC, "修改外貌",        Stone.ResetFace,    GOSSIP_ICON_CHAT,        false,"是否更改外貌？\n|cFFFFFF00需要重新登录才能修改。|r"},
@@ -342,19 +342,19 @@ local Menu={
         {FUNC, "遗忘所有法术",    Stone.ResetSpell,    GOSSIP_ICON_CHAT,        false,"是否遗忘所有法术？\n|cFFFFFF00需要重新登录才能生效。|r"},
     },
     [GMMENU]={--GM菜单
-        {FUNC, "重置所有冷却",    Stone.ResetAllCD,        GOSSIP_ICON_INTERACT_1,    false,"确认重置所有冷却 ?"},
+        {FUNC, "Reset all cooldowns",    Stone.ResetAllCD,        GOSSIP_ICON_INTERACT_1,    false,"Confirm重置所有冷却 ?"},
         {FUNC, "保存角色",         Stone.SaveToDB,            GOSSIP_ICON_INTERACT_1},
         {FUNC, "返回选择角色",     Stone.Logout,            GOSSIP_ICON_INTERACT_1,    false,"返回选择角色界面 ?"},
         {FUNC, "|cFF800000不保存角色|r",Stone.LogoutNosave,GOSSIP_ICON_INTERACT_1,false,"|cFFFF0000不保存角色，并返回选择角色界面 ?|r"},
     },
     [TPMENU]={--传送菜单
-        {MENU, "|cFF006400[城市]|r主要城市",            TPMENU+0x10,GOSSIP_ICON_BATTLE},
-		{MENU, "|cFF006400[出生]|r种族出生地",          TPMENU+0x20,GOSSIP_ICON_BATTLE},
-        {MENU, "|cFF0000FF[野外]|r东部王国",            TPMENU+0x30,GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF006400[City]|rMain cities",            TPMENU+0x10,GOSSIP_ICON_BATTLE},
+		{MENU, "|cFF006400[Starting zone]|rRace starting zone",          TPMENU+0x20,GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF0000FF[野外]|rEast Kingdom",            TPMENU+0x30,GOSSIP_ICON_BATTLE},
         {MENU, "|cFF0000FF[野外]|r卡利姆多",            TPMENU+0x40,GOSSIP_ICON_BATTLE},
         {MENU, "|cFF0000FF[野外]|r|cFF006400外域|r",    TPMENU+0x50,GOSSIP_ICON_BATTLE},
         {MENU, "|cFF0000FF[野外]|r|cFF4B0082诺森德|r",  TPMENU+0x60,GOSSIP_ICON_BATTLE},
-        {MENU, "|cFF006400【5人】经典旧世界地下城|r    ★☆☆☆☆",    TPMENU+0x70,GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF006400【5人】Classic world dungeons.|r    ★☆☆☆☆",    TPMENU+0x70,GOSSIP_ICON_BATTLE},
         {MENU, "|cFF0000FF【5人】燃烧的远征地下城|r    ★★☆☆☆",    TPMENU+0x80,GOSSIP_ICON_BATTLE},
         {MENU, "|cFF4B0082【5人】巫妖王之怒地下城|r    ★★★☆☆",    TPMENU+0x90,GOSSIP_ICON_BATTLE},
         {MENU, "|cFFB22222【10人-40人】团队地下城|r  ★★★★★",      TPMENU+0xa0,GOSSIP_ICON_BATTLE},
@@ -378,18 +378,18 @@ local Menu={
         {TP, "[中立]棘齿城",    1,    -955.21875,-3678.92,8.29946,    0},
         {TP, "[中立]加基森",    1,    -7122.79834,-3704.82,14.0526,    0},
     },
-    [TPMENU+0x20]={--各种族出生地
-	    {TP, "人类出生地",		0,		-8949.95,	-132.493,	83.5312,	0,			TEAM_ALLIANCE},
-	    {TP, "矮人出生地",		0,		-6240.32,	331.033,	382.758,	6.1,		TEAM_ALLIANCE},
-	    {TP, "侏儒出生地",		0,		-6240,		331,		383,		0,			TEAM_ALLIANCE},
-	    {TP, "暗夜精灵出生地",	1,		10311.3,	832.463,	1326.41,	5.6,		TEAM_ALLIANCE},
-	    {TP, "德莱尼出生地",	530,	-3961.64,	-13931.2,	100.615,	2,			TEAM_ALLIANCE},
-	    {TP, "兽人出生地",		1,		-618.518,	-4251.67,	38.718,		0,			TEAM_HORDE},
-	    {TP, "巨魔出生地",		1,		-618.518,	-4251.67,	38.7,		4.747,		TEAM_HORDE},
-	    {TP, "牛头人出生地",	1,		-2917.58,	-257.98,	52.9968,	0,			TEAM_HORDE},
-	    {TP, "亡灵出生地",		0,		1676.71,	1678.31,	121.67,		2.70526,	TEAM_HORDE},
-	    {TP, "血精灵出生地",	530,	10349.6,	-6357.29,	33.4026,	5.31605,	TEAM_HORDE},
-		{TP, "|cFF006400死亡骑士出生地|r",	609,	2355.84,	-5664.77,	426.028,	3.65997,	TEAM_NONE,	55,	0},
+    [TPMENU+0x20]={--各种族 starting zone
+	    {TP, "人类 starting zone",		0,		-8949.95,	-132.493,	83.5312,	0,			TEAM_ALLIANCE},
+	    {TP, "矮人 starting zone",		0,		-6240.32,	331.033,	382.758,	6.1,		TEAM_ALLIANCE},
+	    {TP, "侏儒 starting zone",		0,		-6240,		331,		383,		0,			TEAM_ALLIANCE},
+	    {TP, "暗夜精灵 starting zone",	1,		10311.3,	832.463,	1326.41,	5.6,		TEAM_ALLIANCE},
+	    {TP, "德莱尼 starting zone",	530,	-3961.64,	-13931.2,	100.615,	2,			TEAM_ALLIANCE},
+	    {TP, "兽人 starting zone",		1,		-618.518,	-4251.67,	38.718,		0,			TEAM_HORDE},
+	    {TP, "巨魔 starting zone",		1,		-618.518,	-4251.67,	38.7,		4.747,		TEAM_HORDE},
+	    {TP, "牛头人 starting zone",	1,		-2917.58,	-257.98,	52.9968,	0,			TEAM_HORDE},
+	    {TP, "亡灵 starting zone",		0,		1676.71,	1678.31,	121.67,		2.70526,	TEAM_HORDE},
+	    {TP, "血精灵 starting zone",	530,	10349.6,	-6357.29,	33.4026,	5.31605,	TEAM_HORDE},
+		{TP, "|cFF006400死亡骑士 starting zone|r",	609,	2355.84,	-5664.77,	426.028,	3.65997,	TEAM_NONE,	55,	0},
 	},
     [TPMENU+0x30]={--东部王国
         {TP, "艾尔文森林", 0,  -9449.06, 64.8392, 56.3581, 3.0704},
@@ -567,41 +567,41 @@ local Menu={
         {TP, "诅咒之地",    0,-12234,-2474,-3,                    0},
         {TP, "水晶谷",    1,-6292.463379,1578.029053,0.1553,    0},
     },
-    [MMENU+0x20]={--联盟职业技能训练师
+    [MMENU+0x20]={--联盟职业技能 trainer
         --Alliance
-        {TP, "战士训练师",     0,-8682.700195, 322.091125, 109.437958,    0,TEAM_ALLIANCE},
-        {TP, "圣骑士训练师",     0,-8573.793945, 877.343018, 106.519310,    0,TEAM_ALLIANCE},
-        {TP, "死亡骑士训练师",     0,2365.21, -5658.35, 426.06,        0,TEAM_ALLIANCE},
-        {TP, "萨满训练师",     0,-9032.573242, 545.842590, 72.160950,    0,TEAM_ALLIANCE},
-        {TP, "猎人训练师",     0,-8422.097656, 550.078674, 95.448730,    0,TEAM_ALLIANCE},
-        {TP, "德鲁伊训练师",    1, 7870.23, -2586.97, 486.95,            0,TEAM_ALLIANCE},
-        {TP, "盗贼训练师",     0,-8751.876953, 381.321930, 101.056236,    0,TEAM_ALLIANCE},
-        {TP, "法师训练师",    0,-9009.386719, 875.746765, 29.621387,    0,TEAM_ALLIANCE},
-        {TP, "术士训练师",     0,-8972.834961, 1027.723511, 101.40416,    0,TEAM_ALLIANCE},
-        {TP, "牧师训练师",     0,-8517.649414, 858.083801, 109.81385,     0,TEAM_ALLIANCE},
+        {TP, "战士 trainer",     0,-8682.700195, 322.091125, 109.437958,    0,TEAM_ALLIANCE},
+        {TP, "圣骑士 trainer",     0,-8573.793945, 877.343018, 106.519310,    0,TEAM_ALLIANCE},
+        {TP, "死亡骑士 trainer",     0,2365.21, -5658.35, 426.06,        0,TEAM_ALLIANCE},
+        {TP, "萨满 trainer",     0,-9032.573242, 545.842590, 72.160950,    0,TEAM_ALLIANCE},
+        {TP, "猎人 trainer",     0,-8422.097656, 550.078674, 95.448730,    0,TEAM_ALLIANCE},
+        {TP, "德鲁伊 trainer",    1, 7870.23, -2586.97, 486.95,            0,TEAM_ALLIANCE},
+        {TP, "盗贼 trainer",     0,-8751.876953, 381.321930, 101.056236,    0,TEAM_ALLIANCE},
+        {TP, "法师 trainer",    0,-9009.386719, 875.746765, 29.621387,    0,TEAM_ALLIANCE},
+        {TP, "术士 trainer",     0,-8972.834961, 1027.723511, 101.40416,    0,TEAM_ALLIANCE},
+        {TP, "牧师 trainer",     0,-8517.649414, 858.083801, 109.81385,     0,TEAM_ALLIANCE},
         --Horde
-        {TP, "战士训练师",    1, 1971.24, -4805.08, 56.99,    0,TEAM_HORDE},
-        {TP, "圣骑士训练师",1, 1936.14, -4138.31, 41.03,0,TEAM_HORDE},
-        {TP, "死亡骑士训练师",0, 2365.21, -5658.35, 426.06,    0,TEAM_HORDE},
-        {TP, "萨满训练师",    1, 1928.482, -4228.17, 42.3219,    0,TEAM_HORDE},
-        {TP, "猎人训练师",    1, 2135.33, -4610.78, 54.3865,    0,TEAM_HORDE},
-        {TP, "德鲁伊训练师",    1, 7870.23, -2586.97, 486.95,0,TEAM_HORDE},
-        {TP, "盗贼训练师",    1, 1776.47, -4285.65, 7.44,        0,TEAM_HORDE},
-        {TP, "法师训练师",    1, 1468.58, -4221.86, 59.22,    0,TEAM_HORDE},
-        {TP, "术士训练师",    1, 1838.19, -4355.78, -14.71,    0,TEAM_HORDE},
-        {TP, "牧师训练师",    1, 1454.71, -4179.42, 61.56,     0,TEAM_HORDE},
+        {TP, "战士 trainer",    1, 1971.24, -4805.08, 56.99,    0,TEAM_HORDE},
+        {TP, "圣骑士 trainer",1, 1936.14, -4138.31, 41.03,0,TEAM_HORDE},
+        {TP, "死亡骑士 trainer",0, 2365.21, -5658.35, 426.06,    0,TEAM_HORDE},
+        {TP, "萨满 trainer",    1, 1928.482, -4228.17, 42.3219,    0,TEAM_HORDE},
+        {TP, "猎人 trainer",    1, 2135.33, -4610.78, 54.3865,    0,TEAM_HORDE},
+        {TP, "德鲁伊 trainer",    1, 7870.23, -2586.97, 486.95,0,TEAM_HORDE},
+        {TP, "盗贼 trainer",    1, 1776.47, -4285.65, 7.44,        0,TEAM_HORDE},
+        {TP, "法师 trainer",    1, 1468.58, -4221.86, 59.22,    0,TEAM_HORDE},
+        {TP, "术士 trainer",    1, 1838.19, -4355.78, -14.71,    0,TEAM_HORDE},
+        {TP, "牧师 trainer",    1, 1454.71, -4179.42, 61.56,     0,TEAM_HORDE},
     },
-    [MMENU+0x30]={--专业技能训练师
+    [MMENU+0x30]={--专业技能 trainer
         --Alliance
-        {TP, "武器训练师",     0,-8793.120117, 613.002991, 96.856400,    0,TEAM_ALLIANCE},
-        {TP, "骑术训练师",     0,-9443.556641, -1388.178345, 46.9881,    0,TEAM_ALLIANCE},
-        {TP, "飞行训练师",     530,-676.925598, 2730.669434, 93.9085,    0,TEAM_ALLIANCE},
+        {TP, "武器 trainer",     0,-8793.120117, 613.002991, 96.856400,    0,TEAM_ALLIANCE},
+        {TP, "骑术 trainer",     0,-9443.556641, -1388.178345, 46.9881,    0,TEAM_ALLIANCE},
+        {TP, "飞行 trainer",     530,-676.925598, 2730.669434, 93.9085,    0,TEAM_ALLIANCE},
         --Horde
-        {TP, "武器训练师",    1, 2093.829346, -4821.349609, 24.382,    0,TEAM_HORDE},
-        {TP, "骑术训练师",    530, 9268.768555, -7508.026367, 38.09,    0,TEAM_HORDE},
-        {TP, "飞行训练师",     530,48.719337, 2741.370850, 85.255180,    0,TEAM_HORDE},
+        {TP, "武器 trainer",    1, 2093.829346, -4821.349609, 24.382,    0,TEAM_HORDE},
+        {TP, "骑术 trainer",    530, 9268.768555, -7508.026367, 38.09,    0,TEAM_HORDE},
+        {TP, "飞行 trainer",     530,48.719337, 2741.370850, 85.255180,    0,TEAM_HORDE},
     },
-    [ENCMENU]={-- Enchanter 附魔
+    [ENCMENU]={-- Enchanter  enchantment
         {MENU, "头盔",     ENCMENU+0x20,GOSSIP_ICON_TABARD},
         {MENU, "肩甲",     ENCMENU+0x30,GOSSIP_ICON_TABARD},
         {MENU, "胸甲",     ENCMENU+0x40,GOSSIP_ICON_TABARD},
@@ -619,104 +619,104 @@ local Menu={
         {MENU, "弓弩",      ENCMENU+0xe0,GOSSIP_ICON_TABARD},
     },
     [ENCMENU+0x10] = { -- 衬衣
-        {ENC, "清除胸甲附魔",-1,EQUIPMENT_SLOT_BODY},
+        {ENC, "Removed胸甲 enchantment",-1,EQUIPMENT_SLOT_BODY},
         {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_BODY},
-        {ENC, "增加生命", 3297, EQUIPMENT_SLOT_BODY},
-        {ENC, "法力回复", 2381, EQUIPMENT_SLOT_BODY},
-        {ENC, "韧性等级", 3245, EQUIPMENT_SLOT_BODY},
-        {ENC, "防御等级", 1953, EQUIPMENT_SLOT_BODY},
+        {ENC, "增加 health", 3297, EQUIPMENT_SLOT_BODY},
+        {ENC, "mana回复", 2381, EQUIPMENT_SLOT_BODY},
+        {ENC, "韧性 level", 3245, EQUIPMENT_SLOT_BODY},
+        {ENC, "防御 level", 1953, EQUIPMENT_SLOT_BODY},
         {ENC, "增加敏捷", 1099, EQUIPMENT_SLOT_BODY},
         {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_BODY},
     },
     [ENCMENU+0x20] = { -- 头部
-        {ENC, "清除头盔附魔",-1,EQUIPMENT_SLOT_HEAD},
+        {ENC, "Removed头盔 enchantment",-1,EQUIPMENT_SLOT_HEAD},
         {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_HEAD},
-        {ENC, "法术强度，爆击等级[80]", 3820, EQUIPMENT_SLOT_HEAD},
-        {ENC, "法术强度，法力回复[80]", 3819, EQUIPMENT_SLOT_HEAD},
-        {ENC, "增加耐力，防御等级[80]", 3818, EQUIPMENT_SLOT_HEAD},
-        {ENC, "攻击强度，爆击等级[80]", 3817, EQUIPMENT_SLOT_HEAD},
-        {ENC, "增加耐力，韧性等级[80]", 3842, EQUIPMENT_SLOT_HEAD},
-        {ENC, "攻击强度，韧性等级[80]", 3795, EQUIPMENT_SLOT_HEAD},
-        {ENC, "法术强度，韧性等级[80]", 3797, EQUIPMENT_SLOT_HEAD},
+        {ENC, "法术强度，爆击 level[80]", 3820, EQUIPMENT_SLOT_HEAD},
+        {ENC, "法术强度，mana回复[80]", 3819, EQUIPMENT_SLOT_HEAD},
+        {ENC, "增加耐力，防御 level[80]", 3818, EQUIPMENT_SLOT_HEAD},
+        {ENC, "攻击强度，爆击 level[80]", 3817, EQUIPMENT_SLOT_HEAD},
+        {ENC, "增加耐力，韧性 level[80]", 3842, EQUIPMENT_SLOT_HEAD},
+        {ENC, "攻击强度，韧性 level[80]", 3795, EQUIPMENT_SLOT_HEAD},
+        {ENC, "法术强度，韧性 level[80]", 3797, EQUIPMENT_SLOT_HEAD},
     },
     [ENCMENU+0x30] = { -- 肩部
-        {ENC, "清除肩甲附魔",-1,EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "Removed肩甲 enchantment",-1,EQUIPMENT_SLOT_SHOULDERS},
         {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "攻击强度，韧性等级[80]", 3793, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "攻击强度，韧性 level[80]", 3793, EQUIPMENT_SLOT_SHOULDERS},
         {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "法术强度，韧性等级[80]", 3794, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "增加耐力，韧性等级[80]", 3852, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "攻击强度，爆击等级[80]", 3808, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "法术强度，法力回复[80]", 3809, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "闪避等级，防御等级[80]", 3811, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "法术强度，爆击等级[80]", 3810, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "法术强度，韧性 level[80]", 3794, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "增加耐力，韧性 level[80]", 3852, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "攻击强度，爆击 level[80]", 3808, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "法术强度，mana回复[80]", 3809, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "闪避 level，防御 level[80]", 3811, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "法术强度，爆击 level[80]", 3810, EQUIPMENT_SLOT_SHOULDERS},
     },
     [ENCMENU+0x40] = { -- 胸甲
-        {ENC, "清除胸甲附魔",-1,EQUIPMENT_SLOT_CHEST},
+        {ENC, "Removed胸甲 enchantment",-1,EQUIPMENT_SLOT_CHEST},
         {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_CHEST},
-        {ENC, "增加生命", 3297, EQUIPMENT_SLOT_CHEST},
-        {ENC, "法力回复", 2381, EQUIPMENT_SLOT_CHEST},
-        {ENC, "韧性等级", 3245, EQUIPMENT_SLOT_CHEST},
-        {ENC, "防御等级", 1953, EQUIPMENT_SLOT_CHEST},
+        {ENC, "增加 health", 3297, EQUIPMENT_SLOT_CHEST},
+        {ENC, "mana回复", 2381, EQUIPMENT_SLOT_CHEST},
+        {ENC, "韧性 level", 3245, EQUIPMENT_SLOT_CHEST},
+        {ENC, "防御 level", 1953, EQUIPMENT_SLOT_CHEST},
     },
     [ENCMENU+0xf0] = { -- 腰部
-        {ENC, "清除腰带附魔",-1,EQUIPMENT_SLOT_WAIST},
+        {ENC, "Removed腰带 enchantment",-1,EQUIPMENT_SLOT_WAIST},
         {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_WAIST},
-        {ENC, "增加生命", 3297, EQUIPMENT_SLOT_WAIST},
-        {ENC, "法力回复", 2381, EQUIPMENT_SLOT_WAIST},
-        {ENC, "韧性等级", 3245, EQUIPMENT_SLOT_WAIST},
-        {ENC, "防御等级", 1953, EQUIPMENT_SLOT_WAIST},
+        {ENC, "增加 health", 3297, EQUIPMENT_SLOT_WAIST},
+        {ENC, "mana回复", 2381, EQUIPMENT_SLOT_WAIST},
+        {ENC, "韧性 level", 3245, EQUIPMENT_SLOT_WAIST},
+        {ENC, "防御 level", 1953, EQUIPMENT_SLOT_WAIST},
     },
     [ENCMENU+0x50] = { -- 腿部
-        {ENC, "清除裤子附魔",-1,EQUIPMENT_SLOT_LEGS},
+        {ENC, "Removed裤子 enchantment",-1,EQUIPMENT_SLOT_LEGS},
         {ENC, "增加精神，法术强度[70]", 3719, EQUIPMENT_SLOT_LEGS},
         {ENC, "增加耐力，法术强度[70]", 3721, EQUIPMENT_SLOT_LEGS},
-        {ENC, "增加耐力，韧性等级[80]", 3853, EQUIPMENT_SLOT_LEGS},
+        {ENC, "增加耐力，韧性 level[80]", 3853, EQUIPMENT_SLOT_LEGS},
         {ENC, "增加耐力，敏捷[80]", 3822, EQUIPMENT_SLOT_LEGS},
-        {ENC, "攻击强度，爆击等级[80]", 3823, EQUIPMENT_SLOT_LEGS},
+        {ENC, "攻击强度，爆击 level[80]", 3823, EQUIPMENT_SLOT_LEGS},
         {ENC, "法术强度", 2332, EQUIPMENT_SLOT_LEGS},
         {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_LEGS},
         {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_LEGS},
     },
     [ENCMENU+0x60] = { -- 脚部
-        {ENC, "清除靴子附魔",-1,EQUIPMENT_SLOT_FEET},
+        {ENC, "Removed靴子 enchantment",-1,EQUIPMENT_SLOT_FEET},
         --{ENC, "攻击强度", 1597, EQUIPMENT_SLOT_FEET},
         {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_FEET},
         {ENC, "增加耐力，移动速度", 3232, EQUIPMENT_SLOT_FEET},
         {ENC, "增加敏捷", 983, EQUIPMENT_SLOT_FEET},
         {ENC, "增加精神", 1147, EQUIPMENT_SLOT_FEET},
-        {ENC, "增加生命，生命回复", 3244, EQUIPMENT_SLOT_FEET},
-        {ENC, "命中等级，爆击等级", 3826, EQUIPMENT_SLOT_FEET},
+        {ENC, "增加 health， health回复", 3244, EQUIPMENT_SLOT_FEET},
+        {ENC, "命中 level，爆击 level", 3826, EQUIPMENT_SLOT_FEET},
         {ENC, "增加耐力", 1075, EQUIPMENT_SLOT_FEET},
     },
     [ENCMENU+0x70] = { -- 护腕
-        {ENC, "清除护腕附魔",-1,EQUIPMENT_SLOT_WRISTS},
+        {ENC, "Removed护腕 enchantment",-1,EQUIPMENT_SLOT_WRISTS},
         {ENC, "增加耐力", 3850, EQUIPMENT_SLOT_WRISTS},
         {ENC, "法术强度", 2332, EQUIPMENT_SLOT_WRISTS},
         {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_WRISTS},
         {ENC, "增加精神", 1147, EQUIPMENT_SLOT_WRISTS},
-        {ENC, "精准等级", 3231, EQUIPMENT_SLOT_WRISTS},
+        {ENC, "精准 level", 3231, EQUIPMENT_SLOT_WRISTS},
         --{ENC, "增加全属性1", 2661, EQUIPMENT_SLOT_WRISTS},
         {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_WRISTS},
         {ENC, "增加智力", 1119, EQUIPMENT_SLOT_WRISTS},
     },
     [ENCMENU+0x80] = { -- 手套
-        {ENC, "清除手套附魔",-1,EQUIPMENT_SLOT_HANDS},
-        {ENC, "爆击等级", 3249, EQUIPMENT_SLOT_HANDS},
-        {ENC, "增加威胁，招架等级", 3253, EQUIPMENT_SLOT_HANDS},
+        {ENC, "Removed enchantment",-1,EQUIPMENT_SLOT_HANDS},
+        {ENC, "爆击 level", 3249, EQUIPMENT_SLOT_HANDS},
+        {ENC, "增加威胁，招架 level", 3253, EQUIPMENT_SLOT_HANDS},
         --{ENC, "攻击强度", 1603, EQUIPMENT_SLOT_HANDS},
         {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_HANDS},
         {ENC, "增加敏捷", 3222, EQUIPMENT_SLOT_HANDS},
-        {ENC, "命中等级", 3234, EQUIPMENT_SLOT_HANDS},
-        {ENC, "精准等级", 3231, EQUIPMENT_SLOT_HANDS},
+        {ENC, "命中 level", 3234, EQUIPMENT_SLOT_HANDS},
+        {ENC, "精准 level", 3231, EQUIPMENT_SLOT_HANDS},
         {ENC, "法术强度", 3246, EQUIPMENT_SLOT_HANDS},
     },
     [ENCMENU+0x90] = { -- 背部
-        {ENC, "清除披风附魔",-1,EQUIPMENT_SLOT_BACK},
+        {ENC, "Removed披风 enchantment",-1,EQUIPMENT_SLOT_BACK},
         {ENC, "强化潜行，增加敏捷", 3256, EQUIPMENT_SLOT_BACK},
         {ENC, "增加精神，减少威胁", 3296, EQUIPMENT_SLOT_BACK},
-        {ENC, "防御等级", 1951, EQUIPMENT_SLOT_BACK},
-        {ENC, "急速等级", 3831, EQUIPMENT_SLOT_BACK},
+        {ENC, "防御 level", 1951, EQUIPMENT_SLOT_BACK},
+        {ENC, "急速 level", 3831, EQUIPMENT_SLOT_BACK},
         {ENC, "增加护甲", 3294, EQUIPMENT_SLOT_BACK},
         {ENC, "增加敏捷", 1099, EQUIPMENT_SLOT_BACK},
         {ENC, "奥术抗性", 1262, EQUIPMENT_SLOT_BACK},
@@ -724,15 +724,15 @@ local Menu={
         {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_BACK},
     },
     [ENCMENU+0xa0] = {-- 主手
-        {ENC, "清除主手武器附魔",-1,EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Removed主手武器 enchantment",-1,EQUIPMENT_SLOT_MAINHAND},
         {ENC, "增加耐力",  3851, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "命中等级，爆击等级", 3788, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "命中 level，爆击 level", 3788, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "狂暴",  3789, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "黑魔法",  3790, EQUIPMENT_SLOT_MAINHAND},
         --{ENC, "法术强度",  3834, EQUIPMENT_SLOT_MAINHAND},
         --{ENC, "攻击强度",  3833, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "破冰武器",  3239, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "生命护卫",  3241, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, " health护卫",  3241, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "吸血[75]",  3870, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "利刃防护[75]",  3869, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "增加敏捷", 1103, EQUIPMENT_SLOT_MAINHAND},
@@ -743,15 +743,15 @@ local Menu={
         {ENC, "法术强度", 3854, EQUIPMENT_SLOT_MAINHAND},
     },
     [ENCMENU+0xb0]={-- 副手
-        {ENC, "清除副手武器附魔",-1,EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Removed副手武器 enchantment",-1,EQUIPMENT_SLOT_OFFHAND},
         {ENC, "增加耐力",  3851, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "命中等级，爆击等级", 3788, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "命中 level，爆击 level", 3788, EQUIPMENT_SLOT_OFFHAND},
         {ENC, "狂暴",  3789, EQUIPMENT_SLOT_OFFHAND},
         {ENC, "黑魔法", 3790, EQUIPMENT_SLOT_OFFHAND},
         --{ENC, "法术强度", 3834, EQUIPMENT_SLOT_OFFHAND},
         --{ENC, "攻击强度",  3833, EQUIPMENT_SLOT_OFFHAND},
         {ENC, "破冰武器",  3239, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "生命护卫",  3241, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, " health护卫",  3241, EQUIPMENT_SLOT_OFFHAND},
         {ENC, "吸血[75]",  3870, EQUIPMENT_SLOT_OFFHAND},
         {ENC, "利刃防护[75]",  3869, EQUIPMENT_SLOT_OFFHAND},
         {ENC, "增加敏捷",  1103, EQUIPMENT_SLOT_OFFHAND},
@@ -762,26 +762,26 @@ local Menu={
         {ENC, "法术强度", 3854, EQUIPMENT_SLOT_OFFHAND},
     },
     [ENCMENU+0xe0]={-- 远程
-        {ENC, "清除远程武器附魔",-1,EQUIPMENT_SLOT_RANGED},
+        {ENC, "Removed远程武器 enchantment",-1,EQUIPMENT_SLOT_RANGED},
         {ENC, "增加耐力",  3851, EQUIPMENT_SLOT_RANGED},
-        {ENC, "命中等级，爆击等级", 3788, EQUIPMENT_SLOT_RANGED},
+        {ENC, "命中 level，爆击 level", 3788, EQUIPMENT_SLOT_RANGED},
         --{ENC, "法术强度", 3834, EQUIPMENT_SLOT_RANGED},
         --{ENC, "攻击强度",  3833, EQUIPMENT_SLOT_RANGED},
-        {ENC, "生命护卫",  3241, EQUIPMENT_SLOT_RANGED},
+        {ENC, " health护卫",  3241, EQUIPMENT_SLOT_RANGED},
         {ENC, "增加敏捷",  1103, EQUIPMENT_SLOT_RANGED},
         {ENC, "增加精神",  3844, EQUIPMENT_SLOT_RANGED},
         {ENC, "攻击强度", 3827, EQUIPMENT_SLOT_RANGED},
         {ENC, "法术强度", 3854,EQUIPMENT_SLOT_RANGED},
     },
     [ENCMENU+0xc0]={-- 双手
-        {ENC, "清除双手武器附魔",-1,EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Removed双手武器 enchantment",-1,EQUIPMENT_SLOT_MAINHAND},
         {ENC, "增加耐力",  3851, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "增加敏捷",  1103, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "增加精神",  3844, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "命中等级，爆击等级",  3788, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "命中 level，爆击 level",  3788, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "狂暴",  3789, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "破冰武器",  3239, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "生命护卫", 3241, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, " health护卫", 3241, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "吸血[75]",  3870, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "利刃防护[75]",  3869, EQUIPMENT_SLOT_MAINHAND},
         {ENC, "斩杀",  3225, EQUIPMENT_SLOT_MAINHAND},
@@ -792,17 +792,17 @@ local Menu={
         {ENC, "法术强度", 3854, EQUIPMENT_SLOT_MAINHAND},
     },
     [ENCMENU+0xd0]={-- 盾牌
-        {ENC, "清除盾牌附魔",-1,EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "防御等级", 1952, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Removed盾牌 enchantment",-1,EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "防御 level", 1952, EQUIPMENT_SLOT_OFFHAND},
         {ENC, "增加智力", 1128, EQUIPMENT_SLOT_OFFHAND},
         {ENC, "盾牌格挡", 2655, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "韧性等级", 3229, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "韧性 level", 3229, EQUIPMENT_SLOT_OFFHAND},
         {ENC, "增加耐力", 1071, EQUIPMENT_SLOT_OFFHAND},
         {ENC, "格挡值", 2653, EQUIPMENT_SLOT_OFFHAND},
     },
 }
 
-local function Enchanting(player, EncSpell, Eid, money) --附魔 (玩家,附魔效果,附魔位置)
+local function Enchanting(player, EncSpell, Eid, money) -- enchantment (玩家, enchantment效果, enchantment位置)
     local ID=Eid
     local Nowitem = player:GetEquippedItemBySlot(ID)--得到相应位置物品
     if (Nowitem and Eid )  then--存在物品
@@ -814,7 +814,7 @@ local function Enchanting(player, EncSpell, Eid, money) --附魔 (玩家,附魔�
             if(espellid and espellid>0)then
                 Nowitem:ClearEnchantment(solt)
                 if(EncSpell<=0)then
-                    player:SendBroadcastMessage(WName.."已经清除附魔("..espellid..")")
+                    player:SendBroadcastMessage(WName.."Enchantment removed.("..espellid..")")
                 elseif(solt < 1 )then
                     Nowitem:SetEnchantment(espellid, solt+1)
                     break
@@ -824,25 +824,25 @@ local function Enchanting(player, EncSpell, Eid, money) --附魔 (玩家,附魔�
         if(EncSpell>0)then
             Nowitem:SetEnchantment(EncSpell, 0)
             player:CastSpell(player, 36937)
-            player:SendBroadcastMessage(WName.."已经附魔。")
-            player:SetHealth(player:GetMaxHealth())--回复生命
+            player:SendBroadcastMessage(WName.."Item enchanted.")
+            player:SetHealth(player:GetMaxHealth())--回复 health
             return true
         end
     else
-        player:SendNotification("你身上没有装备相应的物品")
+        player:SendNotification("Unable to find required item equipped on character.")
     end
     return false
 end
 
 function Stone.AddGossip(player, item, id)
-    player:GossipClearMenu()--清除菜单
+    player:GossipClearMenu()--Removed菜单
     local Rows=Menu[id] or {}
     local Pteam=player:GetTeam()
     local teamStr,team="",player:GetTeam()
     if(team==TEAM_ALLIANCE)then
-        teamStr    ="[|cFF0070d0联盟|r]"
+        teamStr    ="[|cFF0070d0Alliance|r]"
     elseif(team==TEAM_HORDE)then
-        teamStr    ="[|cFFF000A0部落|r]"
+        teamStr    ="[|cFFF000A0Horde|r]"
     end
     for k, v in pairs(Rows) do
         local mtype,text,icon,intid=v[1],( v[2] or "???" ), (v[4] or GOSSIP_ICON_CHAT), (id*0x100+k)
@@ -861,9 +861,9 @@ function Stone.AddGossip(player, item, id)
         elseif(mtype==TP)then
             local mteam=v[8] or TEAM_NONE
             if(mteam==Pteam)then
-                player:GossipMenuAddItem(GOSSIP_ICON_TAXI, teamStr..text, 0, intid, false,"是否传送到 |cFFFFFF00"..text.."|r ?",0)
+                player:GossipMenuAddItem(GOSSIP_ICON_TAXI, teamStr..text, 0, intid, false,"Teleport to |cFFFFFF00"..text.."|r ?",0)
             elseif(mteam ==TEAM_NONE)then
-                player:GossipMenuAddItem(GOSSIP_ICON_TAXI, text, 0, intid, false,"是否传送到 |cFFFFFF00"..text.."|r ?",0)
+                player:GossipMenuAddItem(GOSSIP_ICON_TAXI, text, 0, intid, false,"Teleport to |cFFFFFF00"..text.."|r ?",0)
             end
         else
             player:GossipMenuAddItem(icon, text, 0, intid)
@@ -920,7 +920,7 @@ local function Teleport(player, v, cost)
     if(player:Teleport(mapid,x,y,z,o,TELE_TO_GM_MODE))then--传送
         local Nplayer=GetPlayerByName(pname)--根据玩家名得到玩家
         if(Nplayer)then
-            Nplayer:SendBroadcastMessage("已经到达 "..map)
+            Nplayer:SendBroadcastMessage("You have arrived "..map)
             if cost and cost > 0 then
                 Nplayer:ModifyMoney(-cost)--扣费
             end
