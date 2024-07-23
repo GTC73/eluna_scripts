@@ -301,13 +301,13 @@ local Stone={
         end
     end,
     ResetFace=function(player)
-        ResetPlayer(player, 0x8, "外貌")
+        ResetPlayer(player, 0x8, "Face")
     end,
     ResetRace=function(player)
-        ResetPlayer(player, 0x80, "race")
+        ResetPlayer(player, 0x80, "Race")
     end,
     ResetFaction=function(player)
-        ResetPlayer(player, 0x40, "阵营")
+        ResetPlayer(player, 0x40, "Factions")
     end,
     ResetSpell=function(player)
         ResetPlayer(player, 0x2, "All spells")
@@ -377,7 +377,7 @@ local Menu={
         {TP, "[Neutral] Booty Bay", 0, -14281.9, 552.564, 8.90422, 0.860144},
         {TP, "[Neutral] Ratchet", 1, -955.21875, -3678.92, 8.29946, 0},
         {TP, "[Neutral] Gadgetzan", 1, -7122.79834, -3704.82, 14.0526, 0},
-    }
+    },
     [TPMENU+0x20]={--各种族 starting zone
         {TP, "Human starting zone", 0, -8949.95, -132.493, 83.5312, 0, TEAM_ALLIANCE},
         {TP, "Dwarf starting zone", 0, -6240.32, 331.033, 382.758, 6.1, TEAM_ALLIANCE},
