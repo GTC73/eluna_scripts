@@ -163,13 +163,13 @@ function ST.AddAuraToPet(player)
     local instanceType
     if map:IsDungeon() then
         instanceType = DUNGEON
-	elseif map:IsHeroic() then
+    elseif map:IsHeroic() then
         instanceType = HEROIC
-	elseif map:IsRaid() then
+    elseif map:IsRaid() then
         instanceType = RAID
     end
     if AddAuraToPetByInstanceType(player, instanceType) then
-        player:SendAreaTriggerMessage("宠物已获得强化光环")
+        player:SendAreaTriggerMessage("Your pet has gained an enhanced aura.")
     end
 end
 
@@ -205,14 +205,14 @@ local Stone={
         player:SendBroadcastMessage("Bank opened")
     end,
 
-    WeakOut=function(player)--移除复活虚弱
-        if(player:HasAura(15007))then
-            player:RemoveAura(15007)    --移除复活虚弱
+    WeakOut = function(player) -- Remove resurrection sickness
+        if player:HasAura(15007) then
+            player:RemoveAura(15007) -- Remove resurrection sickness
             player:SetHealth(player:GetMaxHealth())
-            --self:RemoveAllAuras()    --移除所有状态
-            player:SendBroadcastMessage("你的身上的复活虚弱状态已经被移除。")
+            -- self:RemoveAllAuras() -- Remove all auras
+            player:SendBroadcastMessage("Resurrection sickness has been removed.")
         else
-            player:SendBroadcastMessage("你的身上没有复活虚弱状态。")
+            player:SendBroadcastMessage("You do not have resurrection sickness.")
         end
     end,
 
@@ -227,27 +227,27 @@ local Stone={
         end
     end,
 
-    WSkillsToMax=function(player)--技能熟练度
+    WSkillsToMax = function(player) -- Skill proficiency
         player:AdvanceSkillsToMax()
-        player:SendBroadcastMessage("当前技能熟练度已经达到最大值")
+        player:SendBroadcastMessage("Current skill proficiency has been maximized.")
     end,
-    MaxHealth=function(player)    --回复 health
+    MaxHealth = function(player) -- Restore health
         player:SetHealth(player:GetMaxHealth())
-        player:SendBroadcastMessage(" health值已经回满。")
+        player:SendBroadcastMessage("Health restored to full.")
     end,
-    ResetTalents = function(player)--重置天赋
-        player:ResetTalents(true)--免费
-        player:SendBroadcastMessage("已经重置天赋")
+    ResetTalents = function(player) -- Reset talents
+        player:ResetTalents(true) -- Free reset
+        player:SendBroadcastMessage("Talents have been reset.")
     end,
 
-    ResetPetTalents=function(player)--重置宠物天赋
+    ResetPetTalents = function(player) -- Reset pet talents
         player:ResetPetTalents()
-        player:SendBroadcastMessage("已经重置宠物天赋")
+        player:SendBroadcastMessage("Pet talents have been reset.")
     end,
 
-    ResetAllCD=function(player)--刷新冷却
+    ResetAllCD = function(player) -- Reset cooldowns
         player:ResetAllCooldowns()
-        player:SendBroadcastMessage("已经重置物品和技能冷却")
+        player:SendBroadcastMessage("Items and skills cooldowns have been reset.")
     end,
 
     RepairAll=function(player)--修理装备
@@ -315,498 +315,498 @@ local Stone={
 }
 
 local Menu={
-    [MMENU]={--主菜单
-        {FUNC, "Teleport home",         Stone.GoHome,    GOSSIP_ICON_CHAT,        false,"Teleport to |cFFF0F000Home|r ?"},
-        {FUNC, "Set home location",         Stone.SetHome,    GOSSIP_ICON_INTERACT_1, false,"Setting current location as |cFFF0F000Home|r ?"},
-        {FUNC, "Bank",         Stone.OpenBank,    GOSSIP_ICON_MONEY_BAG},
-        {MENU, "Map teleport",         TPMENU,            GOSSIP_ICON_BATTLE},
-        {MENU, "Others",        MMENU+0x10,        GOSSIP_ICON_INTERACT_1},
-        {MENU, "Double enchantments",        ENCMENU,        GOSSIP_ICON_TABARD},
-        {FUNC, "Remove dungeons loc",     Stone.UnBind,    GOSSIP_ICON_INTERACT_1, false,"Do you wish to remove all dungeons lock ?"},
-        {FUNC, "Summon mobile vendor",     ST.SummonGNPC,    GOSSIP_ICON_MONEY_BAG},
-        --{FUNC, " enchantment大师NPC",    ST.SummonENPC,    GOSSIP_ICON_TABARD},
-        {MENU, "Class skills trainer",   MMENU+0x20,        GOSSIP_ICON_BATTLE},
-        {MENU, "Profession skills trainer",   MMENU+0x30,        GOSSIP_ICON_BATTLE},
-        -- {FUNC, "强制脱离战斗",     Stone.OutCombat,GOSSIP_ICON_CHAT},
-        {FUNC, "副本宠物加光环",   ST.AddAuraToPet,   GOSSIP_ICON_BATTLE},
+    [MMENU]={--Main Menu
+        {FUNC, "Teleport home",             Stone.GoHome,        GOSSIP_ICON_CHAT,        false,"Teleport to |cFFF0F000Home|r ?"},
+        {FUNC, "Set home location",         Stone.SetHome,        GOSSIP_ICON_INTERACT_1, false,"Setting current location as |cFFF0F000Home|r ?"},
+        {FUNC, "Bank",                      Stone.OpenBank,        GOSSIP_ICON_MONEY_BAG},
+        {MENU, "Map teleport",              TPMENU,                GOSSIP_ICON_BATTLE},
+        {MENU, "Others",                    MMENU+0x10,            GOSSIP_ICON_INTERACT_1},
+        {MENU, "Double enchantments",       ENCMENU,            GOSSIP_ICON_TABARD},
+        {FUNC, "Remove dungeons loc",       Stone.UnBind,        GOSSIP_ICON_INTERACT_1, false,"Do you wish to remove all dungeons lock ?"},
+        {FUNC, "Summon mobile vendor",      ST.SummonGNPC,        GOSSIP_ICON_MONEY_BAG},
+        --{FUNC, "Enchantment Master NPC",   ST.SummonENPC,        GOSSIP_ICON_TABARD},
+        {MENU, "Class skills trainer",      MMENU+0x20,            GOSSIP_ICON_BATTLE},
+        {MENU, "Profession skills trainer", MMENU+0x30,            GOSSIP_ICON_BATTLE},
+        -- {FUNC, "Force exit combat",      Stone.OutCombat,    GOSSIP_ICON_CHAT},
+        {FUNC, "Instance pet aura",         ST.AddAuraToPet,    GOSSIP_ICON_BATTLE},
     },
-    [MMENU+0x10]={--其他功能
-        {FUNC, "解除虚弱",         Stone.WeakOut,        GOSSIP_ICON_INTERACT_1, false,"是否解除虚弱，并回复 health ?"},
-        {FUNC, "Talents reset"    ,    Stone.ResetTalents,    GOSSIP_ICON_TRAINER,    false,"Confirm talents reset ?"},
-        {FUNC, "武器熟练度满值",Stone.WSkillsToMax,    GOSSIP_ICON_TRAINER,    false,"Confirm把武器熟练度加满 ?"},
-        {FUNC, "修理所有装备",    Stone.RepairAll,    GOSSIP_ICON_VENDOR,        false,"需要花费金币修理装备 ?"},
-        -- {FUNC, "修改名字",        Stone.ResetName,    GOSSIP_ICON_CHAT,        false,"是否更改名字？\n|cFFFFFF00需要重新登录才能修改。|r"},
-        -- {FUNC, "修改外貌",        Stone.ResetFace,    GOSSIP_ICON_CHAT,        false,"是否更改外貌？\n|cFFFFFF00需要重新登录才能修改。|r"},
-        -- {FUNC, "修改种族",        Stone.ResetRace,    GOSSIP_ICON_CHAT,        false,"是否更改种族？\n|cFFFFFF00需要重新登录才能修改。|r"},
-        -- {FUNC, "修改阵营",        Stone.ResetFaction,    GOSSIP_ICON_CHAT,        false,"是否更改阵营？\n|cFFFFFF00需要重新登录才能修改。|r"},
-        {FUNC, "遗忘所有法术",    Stone.ResetSpell,    GOSSIP_ICON_CHAT,        false,"是否遗忘所有法术？\n|cFFFFFF00需要重新登录才能生效。|r"},
+    [MMENU+0x10]={--Other Functions
+        {FUNC, "Remove Weakness",         Stone.WeakOut,        GOSSIP_ICON_INTERACT_1, false,"Remove weakness and restore health ?"},
+        {FUNC, "Talents reset",           Stone.ResetTalents,    GOSSIP_ICON_TRAINER,    false,"Confirm talents reset ?"},
+        {FUNC, "Maximize Weapon Skills",  Stone.WSkillsToMax,    GOSSIP_ICON_TRAINER,    false,"Confirm maximize weapon skills ?"},
+        {FUNC, "Repair all equipment",    Stone.RepairAll,    GOSSIP_ICON_VENDOR,        false,"Require gold to repair equipment ?"},
+        -- {FUNC, "Change name",            Stone.ResetName,    GOSSIP_ICON_CHAT,        false,"Change character name?\n|cFFFFFF00Requires re-login to take effect.|r"},
+        -- {FUNC, "Change appearance",      Stone.ResetFace,    GOSSIP_ICON_CHAT,        false,"Change character appearance?\n|cFFFFFF00Requires re-login to take effect.|r"},
+        -- {FUNC, "Change race",            Stone.ResetRace,    GOSSIP_ICON_CHAT,        false,"Change character race?\n|cFFFFFF00Requires re-login to take effect.|r"},
+        -- {FUNC, "Change faction",         Stone.ResetFaction,    GOSSIP_ICON_CHAT,        false,"Change character faction?\n|cFFFFFF00Requires re-login to take effect.|r"},
+        {FUNC, "Forget all spells",       Stone.ResetSpell,    GOSSIP_ICON_CHAT,        false,"Forget all spells?\n|cFFFFFF00Requires re-login to take effect.|r"},
     },
-    [GMMENU]={--GM菜单
-        {FUNC, "Reset all cooldowns",    Stone.ResetAllCD,        GOSSIP_ICON_INTERACT_1,    false,"Confirm重置所有冷却 ?"},
-        {FUNC, "保存角色",         Stone.SaveToDB,            GOSSIP_ICON_INTERACT_1},
-        {FUNC, "返回选择角色",     Stone.Logout,            GOSSIP_ICON_INTERACT_1,    false,"返回选择角色界面 ?"},
-        {FUNC, "|cFF800000不保存角色|r",Stone.LogoutNosave,GOSSIP_ICON_INTERACT_1,false,"|cFFFF0000不保存角色，并返回选择角色界面 ?|r"},
+    [GMMENU]={--GM Menu
+        {FUNC, "Reset all cooldowns",    Stone.ResetAllCD,        GOSSIP_ICON_INTERACT_1,    false,"Confirm reset all cooldowns ?"},
+        {FUNC, "Save character",         Stone.SaveToDB,            GOSSIP_ICON_INTERACT_1},
+        {FUNC, "Return to character selection",     Stone.Logout,            GOSSIP_ICON_INTERACT_1,    false,"Return to character selection screen ?"},
+        {FUNC, "|cFF800000Do not save character|r",Stone.LogoutNosave,GOSSIP_ICON_INTERACT_1,false,"|cFFFF0000Do not save character and return to character selection screen ?|r"},
     },
-    [TPMENU]={--传送菜单
-        {MENU, "|cFF006400[City]|rMain cities",            TPMENU+0x10,GOSSIP_ICON_BATTLE},
-		{MENU, "|cFF006400[Starting zone]|rRace starting zone",          TPMENU+0x20,GOSSIP_ICON_BATTLE},
-        {MENU, "|cFF0000FF[野外]|rEast Kingdoms",            TPMENU+0x30,GOSSIP_ICON_BATTLE},
-        {MENU, "|cFF0000FF[野外]|r卡利姆多",            TPMENU+0x40,GOSSIP_ICON_BATTLE},
-        {MENU, "|cFF0000FF[野外]|r|cFF006400外域|r",    TPMENU+0x50,GOSSIP_ICON_BATTLE},
-        {MENU, "|cFF0000FF[野外]|r|cFF4B0082诺森德|r",  TPMENU+0x60,GOSSIP_ICON_BATTLE},
-        {MENU, "|cFF006400【5人】Classic world dungeons.|r    ★☆☆☆☆",    TPMENU+0x70,GOSSIP_ICON_BATTLE},
-        {MENU, "|cFF0000FF【5人】燃烧的远征地下城|r    ★★☆☆☆",    TPMENU+0x80,GOSSIP_ICON_BATTLE},
-        {MENU, "|cFF4B0082【5人】巫妖王之怒地下城|r    ★★★☆☆",    TPMENU+0x90,GOSSIP_ICON_BATTLE},
-        {MENU, "|cFFB22222【10人-40人】团队地下城|r  ★★★★★",      TPMENU+0xa0,GOSSIP_ICON_BATTLE},
-        {MENU, "风景传送",            TPMENU+0xb0,GOSSIP_ICON_BATTLE},
-        {MENU, "竞技场传送",          TPMENU+0xc0,GOSSIP_ICON_BATTLE},
-        {MENU, "野外BOSS传送",        TPMENU+0xd0,GOSSIP_ICON_BATTLE},
-		{MENU, "竞技场传送",          TPMENU+0xe0,GOSSIP_ICON_BATTLE},
+    [TPMENU] = { -- Teleport Menu
+        {MENU, "|cFF006400[City]|r Main cities",            TPMENU+0x10, GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF006400[Starting zone]|r Race starting zone",          TPMENU+0x20, GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF0000FF[Wild]|r Eastern Kingdoms",            TPMENU+0x30, GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF0000FF[Wild]|r Kalimdor",            TPMENU+0x40, GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF0000FF[Wild]|r |cFF006400Outland|r",    TPMENU+0x50, GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF0000FF[Wild]|r |cFF4B0082Northrend|r",  TPMENU+0x60, GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF006400【5-man】Classic world dungeons|r    ★☆☆☆☆",    TPMENU+0x70, GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF0000FF【5-man】Burning Crusade dungeons|r    ★★☆☆☆",    TPMENU+0x80, GOSSIP_ICON_BATTLE},
+        {MENU, "|cFF4B0082【5-man】Wrath of the Lich King dungeons|r    ★★★☆☆",    TPMENU+0x90, GOSSIP_ICON_BATTLE},
+        {MENU, "|cFFB22222【10-man-40-man】Raid dungeons|r  ★★★★★",      TPMENU+0xa0, GOSSIP_ICON_BATTLE},
+        {MENU, "Scenic teleport",            TPMENU+0xb0, GOSSIP_ICON_BATTLE},
+        {MENU, "Arena teleport",          TPMENU+0xc0, GOSSIP_ICON_BATTLE},
+        {MENU, "World Boss teleport",        TPMENU+0xd0, GOSSIP_ICON_BATTLE},
+        {MENU, "Arena teleport",          TPMENU+0xe0, GOSSIP_ICON_BATTLE},
     },
-[TPMENU+0x10]={--主要城市
-    {TP, "Stormwind City", 0, -8842.09, 626.358, 94.0867, 3.61363, TEAM_ALLIANCE},
-    {TP, "Darnassus", 1, 9869.91, 2493.58, 1315.88, 2.78897, TEAM_ALLIANCE},
-    {TP, "Ironforge", 0, -4900.47, -962.585, 501.455, 5.40538, TEAM_ALLIANCE},
-    {TP, "Exodar", 530, -3864.92, -11643.7, -137.644, 5.50862, TEAM_ALLIANCE},
-    {TP, "Orgrimmar", 1, 1601.08, -4378.69, 9.9846, 2.14362, TEAM_HORDE},
-    {TP, "Thunder Bluff", 1, -1274.45, 71.8601, 128.159, 2.80623, TEAM_HORDE},
-    {TP, "Undercity", 0, 1633.75, 240.167, -43.1034, 6.26128, TEAM_HORDE},
-    {TP, "Silvermoon City", 530, 9738.28, -7454.19, 13.5605, 0.043914, TEAM_HORDE},
-    {TP, "[Northrend] Dalaran", 571, 5809.55, 503.975, 657.526, 2.38338},
-    {TP, "[Outland] Shattrath", 530, -1887.62, 5359.09, -12.4279, 4.40435},
-    {TP, "[Neutral] Booty Bay", 0, -14281.9, 552.564, 8.90422, 0.860144},
-    {TP, "[Neutral] Ratchet", 1, -955.21875, -3678.92, 8.29946, 0},
-    {TP, "[Neutral] Gadgetzan", 1, -7122.79834, -3704.82, 14.0526, 0},
-}
-[TPMENU+0x20]={--各种族 starting zone
-    {TP, "Human starting zone", 0, -8949.95, -132.493, 83.5312, 0, TEAM_ALLIANCE},
-    {TP, "Dwarf starting zone", 0, -6240.32, 331.033, 382.758, 6.1, TEAM_ALLIANCE},
-    {TP, "Gnome starting zone", 0, -6240, 331, 383, 0, TEAM_ALLIANCE},
-    {TP, "Night Elf starting zone", 1, 10311.3, 832.463, 1326.41, 5.6, TEAM_ALLIANCE},
-    {TP, "Draenei starting zone", 530, -3961.64, -13931.2, 100.615, 2, TEAM_ALLIANCE},
-    {TP, "Orc starting zone", 1, -618.518, -4251.67, 38.718, 0, TEAM_HORDE},
-    {TP, "Troll starting zone", 1, -618.518, -4251.67, 38.7, 4.747, TEAM_HORDE},
-    {TP, "Tauren starting zone", 1, -2917.58, -257.98, 52.9968, 0, TEAM_HORDE},
-    {TP, "Undead starting zone", 0, 1676.71, 1678.31, 121.67, 2.70526, TEAM_HORDE},
-    {TP, "Blood Elf starting zone", 530, 10349.6, -6357.29, 33.4026, 5.31605, TEAM_HORDE},
-    {TP, "|cFF006400Death Knight starting zone|r", 609, 2355.84, -5664.77, 426.028, 3.65997, TEAM_NONE, 55, 0},
-},
-[TPMENU+0x30]={--Eastern Kingdoms
-    {TP, "Elwynn Forest", 0, -9449.06, 64.8392, 56.3581, 3.0704},
-    {TP, "Teldrassil", 530, 9024.37, -6682.55, 16.8973, 3.1413},
-    {TP, "Dun Morogh", 0, -5603.76, -482.704, 396.98, 5.2349},
-    {TP, "Tirisfal Glades", 0, 2274.95, 323.918, 34.1137, 4.2436},
-    {TP, "Ghostlands", 530, 7595.73, -6819.6, 84.3718, 2.5656},
-    {TP, "Loch Modan", 0, -5405.85, -2894.15, 341.972, 5.4823},
-    {TP, "Silverpine Forest", 0, 505.126, 1504.63, 124.808, 1.7798},
-    {TP, "Westfall", 0, -10684.9, 1033.63, 32.5389, 6.0738},
-    {TP, "Redridge Mountains", 0, -9447.8, -2270.85, 71.8224, 0.28385},
-    {TP, "Duskwood", 0, -10531.7, -1281.91, 38.8647, 1.5695},
-    {TP, "Hillsbrad Foothills", 0, -385.805, -787.954, 54.6655, 1.0392},
-    {TP, "Wetlands", 0, -3517.75, -913.401, 8.86625, 2.6070},
-    {TP, "Alterac Mountains", 0, 275.049, -652.044, 130.296, 0.50203},
-    {MENU, "Next Page", TPMENU+0x120, GOSSIP_ICON_CHAT},
-},
-[TPMENU+0x120]={--Eastern Kingdoms 2
-    {TP, "Arathi Highlands", 0, -1581.45, -2704.06, 35.4168, 0.490373},
-    {TP, "Stranglethorn Vale", 0, -11921.7, -59.544, 39.7262, 3.7357},
-    {TP, "Desolace", 0, -6782.56, -3128.14, 240.48, 5.6591},
-    {TP, "Swamp of Sorrows", 0, -10368.6, -2731.3, 21.6537, 5.2923},
-    {TP, "Searing Gorge", 0, -6686.33, -1198.55, 240.027, 0.91688},
-    {TP, "Blasted Lands", 0, -11184.7, -3019.31, 7.29238, 3.20542},
-    {TP, "Burning Steppes", 0, -7979.78, -2105.72, 127.919, 5.10148},
-    {TP, "Western Plaguelands", 0, 1743.69, -1723.86, 59.6648, 5.23722},
-    {TP, "Eastern Plaguelands", 0, 2280.64, -5275.05, 82.0166, 4.747},
-    {TP, "Isle of Quel'Danas", 530, 12806.5, -6911.11, 41.1156, 2.2293},
-},
-    [TPMENU+0x40]={--卡利姆多
-        {TP, "秘蓝岛", 530, -4192.62, -12576.7, 36.7598, 1.62813},
-        {TP, "秘血岛", 530, -2721.67, -12208.90, 9.08,     0},
-        {TP, "达希尔", 1, 9889.03, 915.869, 1307.43, 1.9336},
-        {TP, "杜隆塔尔", 1, 228.978, -4741.87, 10.1027, 0.416883},
-        {TP, "莫高雷", 1, -2473.87, -501.225, -9.42465, 0.6525},
-        {TP, "秘血岛", 530, -2095.7, -11841.1, 51.1557, 6.19288},
-        {TP, "黑海岸", 1, 6463.25, 683.986, 8.92792, 4.33534},
-        {TP, "贫瘠之地", 1, -575.772, -2652.45, 95.6384, 0.006469},
-        {TP, "石爪山脉", 1, 1574.89, 1031.57, 137.442, 3.8013},
-        {TP, "灰谷森林", 1, 1919.77, -2169.68, 94.6729, 6.14177},
-        {TP, "千针石林", 1, -5375.53, -2509.2, -40.432, 2.41885},
-        {TP, "凄凉之地", 1, -656.056, 1510.12, 88.3746, 3.29553},
-        {TP, "尘泥沼泽", 1, -3350.12, -3064.85, 33.0364, 5.12666},
-        {TP, "菲拉斯", 1, -4808.31, 1040.51, 103.769, 2.90655},
-        {TP, "塔纳利斯沙漠", 1, -6940.91, -3725.7, 48.9381, 3.11174},
-        {TP, "艾萨拉", 1, 3117.12, -4387.97, 91.9059, 5.49897},
-        {TP, "费伍德森林", 1, 3898.8, -1283.33, 220.519, 6.24307},
-        {TP, "安戈洛环形山", 1, -6291.55, -1158.62, -258.138, 0.457099},
-        {TP, "希利苏斯", 1, -6815.25, 730.015, 40.9483, 2.39066},
-        {TP, "冬泉谷", 1, 6658.57, -4553.48, 718.019, 5.18088},
+    [TPMENU+0x10]={--主要城市
+        {TP, "Stormwind City", 0, -8842.09, 626.358, 94.0867, 3.61363, TEAM_ALLIANCE},
+        {TP, "Darnassus", 1, 9869.91, 2493.58, 1315.88, 2.78897, TEAM_ALLIANCE},
+        {TP, "Ironforge", 0, -4900.47, -962.585, 501.455, 5.40538, TEAM_ALLIANCE},
+        {TP, "Exodar", 530, -3864.92, -11643.7, -137.644, 5.50862, TEAM_ALLIANCE},
+        {TP, "Orgrimmar", 1, 1601.08, -4378.69, 9.9846, 2.14362, TEAM_HORDE},
+        {TP, "Thunder Bluff", 1, -1274.45, 71.8601, 128.159, 2.80623, TEAM_HORDE},
+        {TP, "Undercity", 0, 1633.75, 240.167, -43.1034, 6.26128, TEAM_HORDE},
+        {TP, "Silvermoon City", 530, 9738.28, -7454.19, 13.5605, 0.043914, TEAM_HORDE},
+        {TP, "[Northrend] Dalaran", 571, 5809.55, 503.975, 657.526, 2.38338},
+        {TP, "[Outland] Shattrath", 530, -1887.62, 5359.09, -12.4279, 4.40435},
+        {TP, "[Neutral] Booty Bay", 0, -14281.9, 552.564, 8.90422, 0.860144},
+        {TP, "[Neutral] Ratchet", 1, -955.21875, -3678.92, 8.29946, 0},
+        {TP, "[Neutral] Gadgetzan", 1, -7122.79834, -3704.82, 14.0526, 0},
+    }
+    [TPMENU+0x20]={--各种族 starting zone
+        {TP, "Human starting zone", 0, -8949.95, -132.493, 83.5312, 0, TEAM_ALLIANCE},
+        {TP, "Dwarf starting zone", 0, -6240.32, 331.033, 382.758, 6.1, TEAM_ALLIANCE},
+        {TP, "Gnome starting zone", 0, -6240, 331, 383, 0, TEAM_ALLIANCE},
+        {TP, "Night Elf starting zone", 1, 10311.3, 832.463, 1326.41, 5.6, TEAM_ALLIANCE},
+        {TP, "Draenei starting zone", 530, -3961.64, -13931.2, 100.615, 2, TEAM_ALLIANCE},
+        {TP, "Orc starting zone", 1, -618.518, -4251.67, 38.718, 0, TEAM_HORDE},
+        {TP, "Troll starting zone", 1, -618.518, -4251.67, 38.7, 4.747, TEAM_HORDE},
+        {TP, "Tauren starting zone", 1, -2917.58, -257.98, 52.9968, 0, TEAM_HORDE},
+        {TP, "Undead starting zone", 0, 1676.71, 1678.31, 121.67, 2.70526, TEAM_HORDE},
+        {TP, "Blood Elf starting zone", 530, 10349.6, -6357.29, 33.4026, 5.31605, TEAM_HORDE},
+        {TP, "|cFF006400Death Knight starting zone|r", 609, 2355.84, -5664.77, 426.028, 3.65997, TEAM_NONE, 55, 0},
     },
-    [TPMENU+0x50]={--外域
-        {TP, "地狱火半岛", 530, -207.335, 2035.92, 96.464, 1.59676},
-        {TP, "地狱火半岛-荣耀堡",530,-683.05,2657.57,91.04,    0,TEAM_ALLIANCE},
-        {TP, "地狱火半岛-萨尔玛",530,139.96,2671.51,85.509,    0,TEAM_HORDE},
-        {TP, "赞加沼泽", 530, -220.297, 5378.58, 23.3223, 1.61718},
-        {TP, "泰罗卡森林", 530, -2266.23, 4244.73, 1.47728, 3.68426},
-        {TP, "纳格兰", 530, -1610.85, 7733.62, -17.2773, 1.33522},
-        {TP, "刀锋山", 530, 2029.75, 6232.07, 133.495, 1.30395},
-        {TP, "虚空风暴", 530, 3271.2, 3811.61, 143.153, 3.44101},
-        {TP, "影月谷", 530, -3681.01, 2350.76, 76.587, 4.25995},
+    [TPMENU+0x30]={--Eastern Kingdoms
+        {TP, "Elwynn Forest", 0, -9449.06, 64.8392, 56.3581, 3.0704},
+        {TP, "Teldrassil", 530, 9024.37, -6682.55, 16.8973, 3.1413},
+        {TP, "Dun Morogh", 0, -5603.76, -482.704, 396.98, 5.2349},
+        {TP, "Tirisfal Glades", 0, 2274.95, 323.918, 34.1137, 4.2436},
+        {TP, "Ghostlands", 530, 7595.73, -6819.6, 84.3718, 2.5656},
+        {TP, "Loch Modan", 0, -5405.85, -2894.15, 341.972, 5.4823},
+        {TP, "Silverpine Forest", 0, 505.126, 1504.63, 124.808, 1.7798},
+        {TP, "Westfall", 0, -10684.9, 1033.63, 32.5389, 6.0738},
+        {TP, "Redridge Mountains", 0, -9447.8, -2270.85, 71.8224, 0.28385},
+        {TP, "Duskwood", 0, -10531.7, -1281.91, 38.8647, 1.5695},
+        {TP, "Hillsbrad Foothills", 0, -385.805, -787.954, 54.6655, 1.0392},
+        {TP, "Wetlands", 0, -3517.75, -913.401, 8.86625, 2.6070},
+        {TP, "Alterac Mountains", 0, 275.049, -652.044, 130.296, 0.50203},
+        {MENU, "Next Page", TPMENU+0x120, GOSSIP_ICON_CHAT},
     },
-    [TPMENU+0x60]={--诺森德
-        {TP, "北风苔原", 571, 2954.24, 5379.13, 60.4538, 2.55544},
-        {TP, "凛风峡湾", 571, 682.848, -3978.3, 230.161, 1.54207},
-        {TP, "龙骨荒野", 571, 2678.17, 891.826, 4.37494, 0.101121},
-        {TP, "灰熊丘陵", 571, 4017.35, -3403.85, 290, 5.35431},
-        {TP, "祖达克", 571, 5560.23, -3211.66, 371.709, 5.55055},
-        {TP, "索拉查盆地", 571, 5614.67, 5818.86, -69.722, 3.60807},
-        {TP, "水晶之歌森林", 571, 5411.17, -966.37, 167.082, 1.57167},
-        {TP, "风暴峭壁", 571, 6120.46, -1013.89, 408.39, 5.12322},
-        {TP, "冰冠冰川", 571, 8323.28, 2763.5, 655.093, 2.87223},
-        {TP, "冬拥湖", 571, 4522.23, 2828.01, 389.975, 0.215009},
+    [TPMENU+0x120]={--Eastern Kingdoms 2
+        {TP, "Arathi Highlands", 0, -1581.45, -2704.06, 35.4168, 0.490373},
+        {TP, "Stranglethorn Vale", 0, -11921.7, -59.544, 39.7262, 3.7357},
+        {TP, "Desolace", 0, -6782.56, -3128.14, 240.48, 5.6591},
+        {TP, "Swamp of Sorrows", 0, -10368.6, -2731.3, 21.6537, 5.2923},
+	{TP, "The Hinterlands", 0,  112.406, -3929.74, 136.358, 0.981903},
+        {TP, "Searing Gorge", 0, -6686.33, -1198.55, 240.027, 0.91688},
+        {TP, "Blasted Lands", 0, -11184.7, -3019.31, 7.29238, 3.20542},
+        {TP, "Burning Steppes", 0, -7979.78, -2105.72, 127.919, 5.10148},
+        {TP, "Western Plaguelands", 0, 1743.69, -1723.86, 59.6648, 5.23722},
+        {TP, "Eastern Plaguelands", 0, 2280.64, -5275.05, 82.0166, 4.747},
+        {TP, "Isle of Quel'Danas", 530, 12806.5, -6911.11, 41.1156, 2.2293},
     },
-    [TPMENU+0x70]={--经典旧世界地下城
-        {TP, "诺莫瑞根",0, -5163.54, 925.423, 257.181, 1.57423},
-        {TP, "死亡矿井", 0, -11209.6, 1666.54, 24.6974, 1.42053},
-        {TP, "暴风城监狱", 0, -8799.15, 832.718, 97.6348, 6.04085,TEAM_ALLIANCE},
-        {TP, "怒焰裂谷",  1, 1811.78, -4410.5, -18.4704, 5.20165,TEAM_HORDE},
-        {TP, "剃刀高地",  1, -4657.3, -2519.35, 81.0529, 4.54808},
-        {TP, "剃刀沼泽", 1, -4470.28, -1677.77, 81.3925, 1.16302},
-        {TP, "血色修道院", 0, 2873.15, -764.523, 160.332, 5.10447},
-        {TP, "影牙城堡", 0, -234.675, 1561.63, 76.8921, 1.24031},
-        {TP, "哀嚎洞穴", 1, -731.607, -2218.39, 17.0281, 2.78486},
-        {TP, "黑暗深渊", 1, 4249.99, 740.102, -25.671, 1.34062},
-        {TP, "黑石深渊", 0, -7179.34, -921.212, 165.821, 5.09599},
-        {TP, "黑石塔", 0, -7527.05, -1226.77, 285.732, 5.29626},
-        {TP, "厄运之槌", 1, -3520.14, 1119.38, 161.025, 4.70454},
-        {TP, "玛拉顿", 1, -1421.42, 2907.83, 137.415, 1.70718},
-        {TP, "通灵学院", 0, 1269.64, -2556.21, 93.6088, 0.620623},
-        {TP, "斯坦索姆", 0, 3352.92, -3379.03, 144.782, 6.25978},
-        {TP, "沉没的神庙", 0, -10177.9, -3994.9, -111.239, 6.01885},
-        {TP, "奥达曼",0, -6071.37, -2955.16, 209.782, 0.015708},
-        {TP, "祖尔法拉克", 1, -6801.19, -2893.02, 9.00388, 0.158639},
+    [TPMENU+0x40]={--Kalimdor
+        {TP, "Azuremyst Isle", 530, -4192.62, -12576.7, 36.7598, 1.62813},
+        {TP, "Bloodmyst Isle", 530, -2721.67, -12208.90, 9.08, 0},
+        {TP, "Darnassus", 1, 9889.03, 915.869, 1307.43, 1.9336},
+        {TP, "Durotar", 1, 228.978, -4741.87, 10.1027, 0.416883},
+        {TP, "Mulgore", 1, -2473.87, -501.225, -9.42465, 0.6525},
+        {TP, "Bloodmyst Isle", 530, -2095.7, -11841.1, 51.1557, 6.19288},
+        {TP, "Darkshore", 1, 6463.25, 683.986, 8.92792, 4.33534},
+        {TP, "Barrens", 1, -575.772, -2652.45, 95.6384, 0.006469},
+        {TP, "Stonetalon Mountains", 1, 1574.89, 1031.57, 137.442, 3.8013},
+        {TP, "Ashenvale", 1, 1919.77, -2169.68, 94.6729, 6.14177},
+        {TP, "Thousand Needles", 1, -5375.53, -2509.2, -40.432, 2.41885},
+        {TP, "Desolace", 1, -656.056, 1510.12, 88.3746, 3.29553},
+        {TP, "Dustwallow Marsh", 1, -3350.12, -3064.85, 33.0364, 5.12666},
+        {TP, "Feralas", 1, -4808.31, 1040.51, 103.769, 2.90655},
+        {TP, "Tanaris Desert", 1, -6940.91, -3725.7, 48.9381, 3.11174},
+        {TP, "Azshara", 1, 3117.12, -4387.97, 91.9059, 5.49897},
+        {TP, "Felwood", 1, 3898.8, -1283.33, 220.519, 6.24307},
+        {TP, "Un'Goro Crater", 1, -6291.55, -1158.62, -258.138, 0.457099},
+        {TP, "Silithus", 1, -6815.25, 730.015, 40.9483, 2.39066},
+        {TP, "Winterspring", 1, 6658.57, -4553.48, 718.019, 5.18088},
     },
-    [TPMENU+0x80]={--燃烧的远征地下城
-        {TP, "奥金顿", 530, -3324.49, 4943.45, -101.239, 4.63901},
-        {TP, "时光之穴", 1, -8369.65, -4253.11, -204.272, -2.70526},
-        {TP, "盘牙水库", 530, 738.865, 6865.77, -69.4659, 6.27655},
-        {TP, "地狱火堡垒", 530, -347.29, 3089.82, 21.394, 5.68114},
-        {TP, "魔导师平台", 530, 12884.6, -7317.69, 65.5023, 4.799},
-        {TP, "风暴要塞", 530, 3100.48, 1536.49, 190.3, 4.62226},
+    [TPMENU+0x50]={--Outland
+        {TP, "Hellfire Peninsula", 530, -207.335, 2035.92, 96.464, 1.59676},
+        {TP, "Hellfire Peninsula - Honor Hold", 530, -683.05, 2657.57, 91.04, 0, TEAM_ALLIANCE},
+        {TP, "Hellfire Peninsula - Thrallmar", 530, 139.96, 2671.51, 85.509, 0, TEAM_HORDE},
+        {TP, "Zangarmarsh", 530, -220.297, 5378.58, 23.3223, 1.61718},
+        {TP, "Terokkar Forest", 530, -2266.23, 4244.73, 1.47728, 3.68426},
+        {TP, "Nagrand", 530, -1610.85, 7733.62, -17.2773, 1.33522},
+        {TP, "Blade's Edge Mountains", 530, 2029.75, 6232.07, 133.495, 1.30395},
+        {TP, "Netherstorm", 530, 3271.2, 3811.61, 143.153, 3.44101},
+        {TP, "Shadowmoon Valley", 530, -3681.01, 2350.76, 76.587, 4.25995},
     },
-    [TPMENU+0x90]={--巫妖王之怒地下城
-        {TP, "艾卓-尼鲁布", 571, 3707.86, 2150.23, 36.76, 3.22},
-        {TP, "斯坦索姆的抉择", 1, -8756.39, -4440.68, -199.489, 4.66289},
-        {TP, "冠军的试炼", 571, 8590.95, 791.792, 558.235, 3.13127},
-        {TP, "达克萨隆堡垒", 571, 4765.59, -2038.24, 229.363, 0.887627},
-        {TP, "古达克", 571, 6722.44, -4640.67, 450.632, 3.91123},
-        {TP, "冰冠城塞", 571, 5643.16, 2028.81, 798.274, 4.60242},
-        {TP, "魔枢", 571, 3782.89, 6965.23, 105.088, 6.14194},
-        {TP, "紫罗兰监狱", 571, 5693.08, 502.588, 652.672, 4.0229},
-        {TP, "闪电大厅", 571, 9136.52, -1311.81, 1066.29, 5.19113},
-        {TP, "石头大厅", 571, 8922.12, -1009.16, 1039.56, 1.57044},
-        {TP, "乌特加德城堡",571, 1203.41, -4868.59, 41.2486, 0.283237},
-        {TP, "乌特加德之巅", 571, 1267.24, -4857.3, 215.764, 3.22768},
+    [TPMENU+0x60]={--Northrend
+        {TP, "Borean Tundra", 571, 2954.24, 5379.13, 60.4538, 2.55544},
+        {TP, "Howling Fjord", 571, 682.848, -3978.3, 230.161, 1.54207},
+        {TP, "Dragonblight", 571, 2678.17, 891.826, 4.37494, 0.101121},
+        {TP, "Grizzly Hills", 571, 4017.35, -3403.85, 290, 5.35431},
+        {TP, "Zul'Drak", 571, 5560.23, -3211.66, 371.709, 5.55055},
+        {TP, "Sholazar Basin", 571, 5614.67, 5818.86, -69.722, 3.60807},
+        {TP, "Crystalsong Forest", 571, 5411.17, -966.37, 167.082, 1.57167},
+        {TP, "Storm Peaks", 571, 6120.46, -1013.89, 408.39, 5.12322},
+        {TP, "Icecrown Glacier", 571, 8323.28, 2763.5, 655.093, 2.87223},
+        {TP, "Wintergrasp", 571, 4522.23, 2828.01, 389.975, 0.215009},
     },
-    [TPMENU+0xa0]={--团队地下城
-        {TP, "黑暗神庙", 530, -3649.92, 317.469, 35.2827, 2.94285},
-        {TP, "黑翼之巢", 229, 152.451, -474.881, 116.84, 0.001073},
-        {TP, "海加尔山之巅", 1, -8177.89, -4181.23, -167.552, 0.913338},
-        {TP, "毒蛇神殿", 530, 797.855, 6865.77, -65.4165, 0.005938},
-        {TP, "十字军的试炼", 571, 8515.61, 714.153, 558.248, 1.57753},
-        {TP, "格鲁尔的巢穴", 530, 3530.06, 5104.08, 3.50861, 5.51117},
-        {TP, "玛瑟里顿的巢穴", 530, -336.411, 3130.46, -102.928, 5.20322},
-        {TP, "冰冠城塞",571, 5855.22, 2102.03, 635.991, 3.57899},
-        {TP, "卡拉赞", 0, -11118.9, -2010.33, 47.0819, 0.649895},
-        {TP, "熔火之心", 230, 1126.64, -459.94, -102.535, 3.46095},
-        {TP, "纳克萨玛斯", 571, 3668.72, -1262.46, 243.622, 4.785},
-        {TP, "奥妮克希亚的巢穴", 1, -4708.27, -3727.64, 54.5589, 3.72786},
-        {TP, "安其拉废墟", 1, -8409.82, 1499.06, 27.7179, 2.51868},
-        {MENU, "下一页", TPMENU+0x190,GOSSIP_ICON_BATTLE},
+    [TPMENU+0x70]={--Classic Dungeons
+        {TP, "Gnomeregan", 0, -5163.54, 925.423, 257.181, 1.57423},
+        {TP, "The Deadmines", 0, -11209.6, 1666.54, 24.6974, 1.42053},
+        {TP, "Stormwind Stockade", 0, -8799.15, 832.718, 97.6348, 6.04085, TEAM_ALLIANCE},
+        {TP, "Ragefire Chasm", 1, 1811.78, -4410.5, -18.4704, 5.20165, TEAM_HORDE},
+        {TP, "Razorfen Downs", 1, -4657.3, -2519.35, 81.0529, 4.54808},
+        {TP, "Razorfen Kraul", 1, -4470.28, -1677.77, 81.3925, 1.16302},
+        {TP, "Scarlet Monastery", 0, 2873.15, -764.523, 160.332, 5.10447},
+        {TP, "Shadowfang Keep", 0, -234.675, 1561.63, 76.8921, 1.24031},
+        {TP, "Wailing Caverns", 1, -731.607, -2218.39, 17.0281, 2.78486},
+        {TP, "Blackfathom Deeps", 1, 4249.99, 740.102, -25.671, 1.34062},
+        {TP, "Blackrock Depths", 0, -7179.34, -921.212, 165.821, 5.09599},
+        {TP, "Blackrock Spire", 0, -7527.05, -1226.77, 285.732, 5.29626},
+        {TP, "Dire Maul", 1, -3520.14, 1119.38, 161.025, 4.70454},
+        {TP, "Maraudon", 1, -1421.42, 2907.83, 137.415, 1.70718},
+        {TP, "Scholomance", 0, 1269.64, -2556.21, 93.6088, 0.620623},
+        {TP, "Stratholme", 0, 3352.92, -3379.03, 144.782, 6.25978},
+        {TP, "The Temple of Atal'Hakkar", 0, -10177.9, -3994.9, -111.239, 6.01885},
+        {TP, "Uldaman", 0, -6071.37, -2955.16, 209.782, 0.015708},
+        {TP, "Zul'Farrak", 1, -6801.19, -2893.02, 9.00388, 0.158639},
     },
-    [TPMENU+0x190]={--团队地下城2
-        {TP, "太阳井高地", 530, 12574.1, -6774.81, 15.0904, 3.13788},
-        {TP, "风暴要塞",  530, 3088.49, 1381.57, 184.863, 4.61973},
-        {TP, "安其拉神殿", 1, -8240.09, 1991.32, 129.072, 0.941603},
-        {TP, "永恒之眼", 571, 3784.17, 7028.84, 161.258, 5.79993},
-        {TP, "黑曜石圣殿", 571, 3472.43, 264.923, -120.146, 3.27923},
-        {TP, "奥杜尔",571, 9222.88, -1113.59, 1216.12, 6.27549},
-        {TP, "阿尔卡冯的宝库", 571, 5453.72, 2840.79, 421.28, 0},
-        {TP, "祖尔格拉布", 0, -11916.7, -1215.72, 92.289, 4.72454},
-        {TP, "祖阿曼",530, 6851.78, -7972.57, 179.242, 4.64691},
+    [TPMENU+0x80]={--Burning Crusade Dungeons
+        {TP, "Auchindoun", 530, -3324.49, 4943.45, -101.239, 4.63901},
+        {TP, "Caverns of Time", 1, -8369.65, -4253.11, -204.272, -2.70526},
+        {TP, "Coilfang Reservoir", 530, 738.865, 6865.77, -69.4659, 6.27655},
+        {TP, "Hellfire Citadel", 530, -347.29, 3089.82, 21.394, 5.68114},
+        {TP, "Magisters' Terrace", 530, 12884.6, -7317.69, 65.5023, 4.799},
+        {TP, "The Eye (Tempest Keep)", 530, 3100.48, 1536.49, 190.3, 4.62226},
     },
-
-    [TPMENU+0xb0]={--风景传送
-        {TP, "GM之岛",            1, 16222.1,        16252.1,    12.5872,    0},
-        {TP, "时光之穴",        1,-8173.93018,    -4737.46387,33.77735,    0},
-        {TP, "双塔山",            1,-3331.35327,    2225.72827,    30.9877,    0},
-        {TP, "梦境之树",        1,-2914.7561,    1902.19934,    34.74103,    0},
-        {TP, "恐怖之岛",        1, 4603.94678,    -3879.25097,944.18347,    0},
-        {TP, "天涯海滩",        1,-9851.61719,    -3608.47412,8.93973,    0},
-        {TP, "安戈洛环形山",    1,-8562.09668,    -2106.05664,8.85254,    0},
-        {TP, "石堡瀑布",        0,-9481.49316,    -3326.91528,8.86435,    0},
-        {TP, "暴雪建设公司路障",1, 5478.06006,    -3730.8501,    1593.44,    0},
+    [TPMENU+0x90]={--Wrath of the Lich King Dungeons
+        {TP, "Azjol-Nerub", 571, 3707.86, 2150.23, 36.76, 3.22},
+        {TP, "The Culling of Stratholme", 1, -8756.39, -4440.68, -199.489, 4.66289},
+        {TP, "Trial of the Champion", 571, 8590.95, 791.792, 558.235, 3.13127},
+        {TP, "The Forge of Souls", 571, 4765.59, -2038.24, 229.363, 0.887627},
+        {TP, "Gundrak", 571, 6722.44, -4640.67, 450.632, 3.91123},
+        {TP, "Icecrown Citadel", 571, 5643.16, 2028.81, 798.274, 4.60242},
+        {TP, "The Nexus", 571, 3782.89, 6965.23, 105.088, 6.14194},
+        {TP, "Violet Hold", 571, 5693.08, 502.588, 652.672, 4.0229},
+        {TP, "Halls of Lightning", 571, 9136.52, -1311.81, 1066.29, 5.19113},
+        {TP, "Halls of Stone", 571, 8922.12, -1009.16, 1039.56, 1.57044},
+        {TP, "Utgarde Keep", 571, 1203.41, -4868.59, 41.2486, 0.283237},
+        {TP, "Utgarde Pinnacle", 571, 1267.24, -4857.3, 215.764, 3.22768},
     },
-
-    [TPMENU+0xc0]={--竞技场传送
-        {TP, "古拉巴什竞技场", 0, -13181.8, 339.356, 42.9805, 1.18013},
+    [TPMENU+0xa0]={--Raid Dungeons
+        {TP, "The Black Temple", 530, -3649.92, 317.469, 35.2827, 2.94285},
+        {TP, "Blackwing Lair", 229, 152.451, -474.881, 116.84, 0.001073},
+        {TP, "Mount Hyjal Summit", 1, -8177.89, -4181.23, -167.552, 0.913338},
+        {TP, "Serpentshrine Cavern", 530, 797.855, 6865.77, -65.4165, 0.005938},
+        {TP, "Trial of the Crusader", 571, 8515.61, 714.153, 558.248, 1.57753},
+        {TP, "Gruul's Lair", 530, 3530.06, 5104.08, 3.50861, 5.51117},
+        {TP, "Magtheridon's Lair", 530, -336.411, 3130.46, -102.928, 5.20322},
+        {TP, "Icecrown Citadel", 571, 5855.22, 2102.03, 635.991, 3.57899},
+        {TP, "Karazhan", 0, -11118.9, -2010.33, 47.0819, 0.649895},
+        {TP, "Molten Core", 230, 1126.64, -459.94, -102.535, 3.46095},
+        {TP, "Naxxramas", 571, 3668.72, -1262.46, 243.622, 4.785},
+        {TP, "Onyxia's Lair", 1, -4708.27, -3727.64, 54.5589, 3.72786},
+        {TP, "Ahn'Qiraj Ruins", 1, -8409.82, 1499.06, 27.7179, 2.51868},
+        {MENU, "Next Page", TPMENU+0x190, GOSSIP_ICON_BATTLE},
+    },
+    [TPMENU+0x190]={--Team Dungeons 2
+        {TP, "Sunwell Plateau", 530, 12574.1, -6774.81, 15.0904, 3.13788},
+        {TP, "The Eye",  530, 3088.49, 1381.57, 184.863, 4.61973},
+        {TP, "Temple of Ahn'Qiraj", 1, -8240.09, 1991.32, 129.072, 0.941603},
+        {TP, "The Oculus", 571, 3784.17, 7028.84, 161.258, 5.79993},
+        {TP, "Black Temple", 571, 3472.43, 264.923, -120.146, 3.27923},
+        {TP, "Ulduar", 571, 9222.88, -1113.59, 1216.12, 6.27549},
+        {TP, "Vault of Archavon", 571, 5453.72, 2840.79, 421.28, 0},
+        {TP, "Zul'Gurub", 0, -11916.7, -1215.72, 92.289, 4.72454},
+        {TP, "Zul'Aman", 530, 6851.78, -7972.57, 179.242, 4.64691},
+    },
+    [TPMENU+0xb0]={--Scenic Transports
+        {TP, "GM Island", 1, 16222.1, 16252.1, 12.5872, 0},
+        {TP, "Caverns of Time", 1, -8173.93018, -4737.46387, 33.77735, 0},
+        {TP, "Twin Peaks", 1, -3331.35327, 2225.72827, 30.9877, 0},
+        {TP, "Dreamgrove", 1, -2914.7561, 1902.19934, 34.74103, 0},
+        {TP, "Dreadscar Rift", 1, 4603.94678, -3879.25097, 944.18347, 0},
+        {TP, "End of the World Beach", 1, -9851.61719, -3608.47412, 8.93973, 0},
+        {TP, "Uldaman Crater", 1, -8562.09668, -2106.05664, 8.85254, 0},
+        {TP, "Stone Cairn Lake", 0, -9481.49316, -3326.91528, 8.86435, 0},
+        {TP, "Blizzard Barrier", 1, 5478.06006, -3730.8501, 1593.44, 0},
+    },
+    [TPMENU+0xc0]={--Arena Teleports
+        {TP, "Gurubashi Arena", 0, -13181.8, 339.356, 42.9805, 1.18013},
         --Alliance
-        {TP, "奥特兰战场",0,    5.599396,-308.73822,132.26651,        0,TEAM_ALLIANCE},
-        {TP, "阿拉希战场",0,    -1229.860352,-2545.07959,21.180079,    0,TEAM_ALLIANCE},
+        {TP, "Warsong Gulch", 0, 1036.794800, -2106.138672, 122.94553, 0, TEAM_ALLIANCE},
+        {TP, "Arathi Basin", 0, -1229.860352, -2545.07959, 21.180079, 0, TEAM_ALLIANCE},
         --Horde
-        {TP, "阿拉希战场",0,    -847.953491,-3519.764893,72.607727,    0,TEAM_HORDE},
-        {TP, "奥特兰战场",0,    396.471863,-1006.229126,111.719086,    0,TEAM_HORDE},
-        {TP, "战歌峡谷",  1,    1036.794800,-2106.138672,122.94553,    0,TEAM_HORDE},
+        {TP, "Arathi Basin", 0, -847.953491, -3519.764893, 72.607727, 0, TEAM_HORDE},
+        {TP, "Warsong Gulch", 0, 396.471863, -1006.229126, 111.719086, 0, TEAM_HORDE},
+        {TP, "Alterac Valley", 1, 5.599396, -308.73822, 132.26651, 0, TEAM_HORDE},
     },
-    [TPMENU+0xd0]={--野外BOSS传送
-        {TP, "暮色森林",    0,-10526.16895,-434.996796,50.8948,    0},
-        {TP, "辛特兰",    0,759.605713,-3893.341309,116.4753,    0},
-        {TP, "灰谷",        1,3120.289307,-3439.444336,139.5663,0},
-        {TP, "艾萨拉",    1,2622.219971,-5977.930176,100.5629,0},
-        {TP, "菲拉斯",    1,-2741.290039,2009.481323,31.8773,    0},
-        {TP, "诅咒之地",    0,-12234,-2474,-3,                    0},
-        {TP, "水晶谷",    1,-6292.463379,1578.029053,0.1553,    0},
+    [TPMENU+0xd0]={--Outdoor Boss Teleports
+        {TP, "Duskwood", 0, -10526.16895, -434.996796, 50.8948, 0},
+        {TP, "Stranglethorn Vale", 0, 759.605713, -3893.341309, 116.4753, 0},
+        {TP, "Ashenvale", 1, 3120.289307, -3439.444336, 139.5663, 0},
+        {TP, "Azshara", 1, 2622.219971, -5977.930176, 100.5629, 0},
+        {TP, "Feralas", 1, -2741.290039, 2009.481323, 31.8773, 0},
+        {TP, "Blasted Lands", 0, -12234, -2474, -3, 0},
+        {TP, "Silithus", 1, -6292.463379, 1578.029053, 0.1553, 0},
     },
     [MMENU+0x20]={--联盟职业技能 trainer
         --Alliance
-        {TP, "战士 trainer",     0,-8682.700195, 322.091125, 109.437958,    0,TEAM_ALLIANCE},
-        {TP, "圣骑士 trainer",     0,-8573.793945, 877.343018, 106.519310,    0,TEAM_ALLIANCE},
-        {TP, "死亡骑士 trainer",     0,2365.21, -5658.35, 426.06,        0,TEAM_ALLIANCE},
-        {TP, "萨满 trainer",     0,-9032.573242, 545.842590, 72.160950,    0,TEAM_ALLIANCE},
-        {TP, "猎人 trainer",     0,-8422.097656, 550.078674, 95.448730,    0,TEAM_ALLIANCE},
-        {TP, "德鲁伊 trainer",    1, 7870.23, -2586.97, 486.95,            0,TEAM_ALLIANCE},
-        {TP, "盗贼 trainer",     0,-8751.876953, 381.321930, 101.056236,    0,TEAM_ALLIANCE},
-        {TP, "法师 trainer",    0,-9009.386719, 875.746765, 29.621387,    0,TEAM_ALLIANCE},
-        {TP, "术士 trainer",     0,-8972.834961, 1027.723511, 101.40416,    0,TEAM_ALLIANCE},
-        {TP, "牧师 trainer",     0,-8517.649414, 858.083801, 109.81385,     0,TEAM_ALLIANCE},
+        {TP, "Warrior trainer",     0, -8682.700195, 322.091125, 109.437958,    0, TEAM_ALLIANCE},
+        {TP, "Paladin trainer",     0, -8573.793945, 877.343018, 106.519310,    0, TEAM_ALLIANCE},
+        {TP, "Death Knight trainer",     0, 2365.21, -5658.35, 426.06,        0, TEAM_ALLIANCE},
+        {TP, "Shaman trainer",     0, -9032.573242, 545.842590, 72.160950,    0, TEAM_ALLIANCE},
+        {TP, "Hunter trainer",     0, -8422.097656, 550.078674, 95.448730,    0, TEAM_ALLIANCE},
+        {TP, "Druid trainer",    1, 7870.23, -2586.97, 486.95,            0, TEAM_ALLIANCE},
+        {TP, "Rogue trainer",     0, -8751.876953, 381.321930, 101.056236,    0, TEAM_ALLIANCE},
+        {TP, "Mage trainer",    0, -9009.386719, 875.746765, 29.621387,    0, TEAM_ALLIANCE},
+        {TP, "Warlock trainer",     0, -8972.834961, 1027.723511, 101.40416,    0, TEAM_ALLIANCE},
+        {TP, "Priest trainer",     0, -8517.649414, 858.083801, 109.81385,     0, TEAM_ALLIANCE},
         --Horde
-        {TP, "战士 trainer",    1, 1971.24, -4805.08, 56.99,    0,TEAM_HORDE},
-        {TP, "圣骑士 trainer",1, 1936.14, -4138.31, 41.03,0,TEAM_HORDE},
-        {TP, "死亡骑士 trainer",0, 2365.21, -5658.35, 426.06,    0,TEAM_HORDE},
-        {TP, "萨满 trainer",    1, 1928.482, -4228.17, 42.3219,    0,TEAM_HORDE},
-        {TP, "猎人 trainer",    1, 2135.33, -4610.78, 54.3865,    0,TEAM_HORDE},
-        {TP, "德鲁伊 trainer",    1, 7870.23, -2586.97, 486.95,0,TEAM_HORDE},
-        {TP, "盗贼 trainer",    1, 1776.47, -4285.65, 7.44,        0,TEAM_HORDE},
-        {TP, "法师 trainer",    1, 1468.58, -4221.86, 59.22,    0,TEAM_HORDE},
-        {TP, "术士 trainer",    1, 1838.19, -4355.78, -14.71,    0,TEAM_HORDE},
-        {TP, "牧师 trainer",    1, 1454.71, -4179.42, 61.56,     0,TEAM_HORDE},
+        {TP, "Warrior trainer",    1, 1971.24, -4805.08, 56.99,    0, TEAM_HORDE},
+        {TP, "Paladin trainer",1, 1936.14, -4138.31, 41.03,0, TEAM_HORDE},
+        {TP, "Death Knight trainer",0, 2365.21, -5658.35, 426.06,    0, TEAM_HORDE},
+        {TP, "Shaman trainer",    1, 1928.482, -4228.17, 42.3219,    0, TEAM_HORDE},
+        {TP, "Hunter trainer",    1, 2135.33, -4610.78, 54.3865,    0, TEAM_HORDE},
+        {TP, "Druid trainer",    1, 7870.23, -2586.97, 486.95,0, TEAM_HORDE},
+        {TP, "Rogue trainer",    1, 1776.47, -4285.65, 7.44,        0, TEAM_HORDE},
+        {TP, "Mage trainer",    1, 1468.58, -4221.86, 59.22,    0, TEAM_HORDE},
+        {TP, "Warlock trainer",    1, 1838.19, -4355.78, -14.71,    0, TEAM_HORDE},
+        {TP, "Priest trainer",    1, 1454.71, -4179.42, 61.56,     0, TEAM_HORDE},
     },
     [MMENU+0x30]={--专业技能 trainer
         --Alliance
-        {TP, "武器 trainer",     0,-8793.120117, 613.002991, 96.856400,    0,TEAM_ALLIANCE},
-        {TP, "骑术 trainer",     0,-9443.556641, -1388.178345, 46.9881,    0,TEAM_ALLIANCE},
-        {TP, "飞行 trainer",     530,-676.925598, 2730.669434, 93.9085,    0,TEAM_ALLIANCE},
+        {TP, "Weapon trainer",     0, -8793.120117, 613.002991, 96.856400,    0, TEAM_ALLIANCE},
+        {TP, "Riding trainer",     0, -9443.556641, -1388.178345, 46.9881,    0, TEAM_ALLIANCE},
+        {TP, "Flying trainer",     530, -676.925598, 2730.669434, 93.9085,    0, TEAM_ALLIANCE},
         --Horde
-        {TP, "武器 trainer",    1, 2093.829346, -4821.349609, 24.382,    0,TEAM_HORDE},
-        {TP, "骑术 trainer",    530, 9268.768555, -7508.026367, 38.09,    0,TEAM_HORDE},
-        {TP, "飞行 trainer",     530,48.719337, 2741.370850, 85.255180,    0,TEAM_HORDE},
+        {TP, "Weapon trainer",    1, 2093.829346, -4821.349609, 24.382,    0, TEAM_HORDE},
+        {TP, "Riding trainer",    530, 9268.768555, -7508.026367, 38.09,    0, TEAM_HORDE},
+        {TP, "Flying trainer",     530, 48.719337, 2741.370850, 85.255180,    0, TEAM_HORDE},
     },
-    [ENCMENU]={-- Enchanter  enchantment
-        {MENU, "头盔",     ENCMENU+0x20,GOSSIP_ICON_TABARD},
-        {MENU, "肩甲",     ENCMENU+0x30,GOSSIP_ICON_TABARD},
-        {MENU, "胸甲",     ENCMENU+0x40,GOSSIP_ICON_TABARD},
-        {MENU, "衬衣",     ENCMENU+0x10,GOSSIP_ICON_TABARD},
-        {MENU, "腰带",     ENCMENU+0xf0,GOSSIP_ICON_TABARD},
-        {MENU, "裤子",     ENCMENU+0x50,GOSSIP_ICON_TABARD},
-        {MENU, "鞋子",    ENCMENU+0x60,GOSSIP_ICON_TABARD},
-        {MENU, "护腕",     ENCMENU+0x70,GOSSIP_ICON_TABARD},
-        {MENU, "手套",     ENCMENU+0x80,GOSSIP_ICON_TABARD},
-        {MENU, "披风",      ENCMENU+0x90,GOSSIP_ICON_TABARD},
-        {MENU, "主手武器", ENCMENU+0xa0,GOSSIP_ICON_TABARD},
-        {MENU, "副手武器", ENCMENU+0xb0,GOSSIP_ICON_TABARD},
-        {MENU, "双手武器", ENCMENU+0xc0,GOSSIP_ICON_TABARD},
-        {MENU, "盾牌",      ENCMENU+0xd0,GOSSIP_ICON_TABARD},
-        {MENU, "弓弩",      ENCMENU+0xe0,GOSSIP_ICON_TABARD},
+    [ENCMENU] = { -- Enchanter Enchantments
+        {MENU, "Helmet",         ENCMENU + 0x20, GOSSIP_ICON_TABARD},
+        {MENU, "Shoulders",      ENCMENU + 0x30, GOSSIP_ICON_TABARD},
+        {MENU, "Chest",          ENCMENU + 0x40, GOSSIP_ICON_TABARD},
+        {MENU, "Shirt",          ENCMENU + 0x10, GOSSIP_ICON_TABARD},
+        {MENU, "Waist",          ENCMENU + 0xf0, GOSSIP_ICON_TABARD},
+        {MENU, "Legs",           ENCMENU + 0x50, GOSSIP_ICON_TABARD},
+        {MENU, "Feet",           ENCMENU + 0x60, GOSSIP_ICON_TABARD},
+        {MENU, "Bracers",        ENCMENU + 0x70, GOSSIP_ICON_TABARD},
+        {MENU, "Gloves",         ENCMENU + 0x80, GOSSIP_ICON_TABARD},
+        {MENU, "Cloak",          ENCMENU + 0x90, GOSSIP_ICON_TABARD},
+        {MENU, "Main Hand",      ENCMENU + 0xa0, GOSSIP_ICON_TABARD},
+        {MENU, "Off Hand",       ENCMENU + 0xb0, GOSSIP_ICON_TABARD},
+        {MENU, "Two-Handed",     ENCMENU + 0xc0, GOSSIP_ICON_TABARD},
+        {MENU, "Shield",         ENCMENU + 0xd0, GOSSIP_ICON_TABARD},
+        {MENU, "Bow/Crossbow",   ENCMENU + 0xe0, GOSSIP_ICON_TABARD},
     },
-    [ENCMENU+0x10] = { -- 衬衣
-        {ENC, "Removed胸甲 enchantment",-1,EQUIPMENT_SLOT_BODY},
-        {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_BODY},
-        {ENC, "增加 health", 3297, EQUIPMENT_SLOT_BODY},
-        {ENC, "mana回复", 2381, EQUIPMENT_SLOT_BODY},
-        {ENC, "韧性 level", 3245, EQUIPMENT_SLOT_BODY},
-        {ENC, "防御 level", 1953, EQUIPMENT_SLOT_BODY},
-        {ENC, "增加敏捷", 1099, EQUIPMENT_SLOT_BODY},
-        {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_BODY},
+    [ENCMENU + 0x10] = { -- Shirt
+        {ENC, "Removed Chest enchantment", -1, EQUIPMENT_SLOT_BODY},
+        {ENC, "Increase All Stats", 3832, EQUIPMENT_SLOT_BODY},
+        {ENC, "Increase Health", 3297, EQUIPMENT_SLOT_BODY},
+        {ENC, "Mana Regeneration", 2381, EQUIPMENT_SLOT_BODY},
+        {ENC, "Resilience Level", 3245, EQUIPMENT_SLOT_BODY},
+        {ENC, "Defense Level", 1953, EQUIPMENT_SLOT_BODY},
+        {ENC, "Increase Agility", 1099, EQUIPMENT_SLOT_BODY},
+        {ENC, "Attack Power", 3845, EQUIPMENT_SLOT_BODY},
     },
-    [ENCMENU+0x20] = { -- 头部
-        {ENC, "Removed头盔 enchantment",-1,EQUIPMENT_SLOT_HEAD},
-        {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_HEAD},
-        {ENC, "法术强度，爆击 level[80]", 3820, EQUIPMENT_SLOT_HEAD},
-        {ENC, "法术强度，mana回复[80]", 3819, EQUIPMENT_SLOT_HEAD},
-        {ENC, "增加耐力，防御 level[80]", 3818, EQUIPMENT_SLOT_HEAD},
-        {ENC, "攻击强度，爆击 level[80]", 3817, EQUIPMENT_SLOT_HEAD},
-        {ENC, "增加耐力，韧性 level[80]", 3842, EQUIPMENT_SLOT_HEAD},
-        {ENC, "攻击强度，韧性 level[80]", 3795, EQUIPMENT_SLOT_HEAD},
-        {ENC, "法术强度，韧性 level[80]", 3797, EQUIPMENT_SLOT_HEAD},
+    [ENCMENU + 0x20] = { -- Head
+        {ENC, "Removed Helmet enchantment", -1, EQUIPMENT_SLOT_HEAD},
+        {ENC, "Increase All Stats", 3832, EQUIPMENT_SLOT_HEAD},
+        {ENC, "Spell Power, Critical Strike Level 80", 3820, EQUIPMENT_SLOT_HEAD},
+        {ENC, "Spell Power, Mana Regeneration Level 80", 3819, EQUIPMENT_SLOT_HEAD},
+        {ENC, "Stamina Increase, Defense Level 80", 3818, EQUIPMENT_SLOT_HEAD},
+        {ENC, "Attack Power, Critical Strike Level 80", 3817, EQUIPMENT_SLOT_HEAD},
+        {ENC, "Stamina Increase, Versatility Level 80", 3842, EQUIPMENT_SLOT_HEAD},
+        {ENC, "Attack Power, Versatility Level 80", 3795, EQUIPMENT_SLOT_HEAD},
+        {ENC, "Spell Power, Versatility Level 80", 3797, EQUIPMENT_SLOT_HEAD},
     },
-    [ENCMENU+0x30] = { -- 肩部
-        {ENC, "Removed肩甲 enchantment",-1,EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "攻击强度，韧性 level[80]", 3793, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "法术强度，韧性 level[80]", 3794, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "增加耐力，韧性 level[80]", 3852, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "攻击强度，爆击 level[80]", 3808, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "法术强度，mana回复[80]", 3809, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "闪避 level，防御 level[80]", 3811, EQUIPMENT_SLOT_SHOULDERS},
-        {ENC, "法术强度，爆击 level[80]", 3810, EQUIPMENT_SLOT_SHOULDERS},
+    [ENCMENU + 0x30] = { -- Shoulders
+        {ENC, "Removed Shoulder enchantment", -1, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "Increase All Stats", 3832, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "Attack Power, Versatility Level 80", 3793, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "Attack Power", 3845, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "Spell Power, Versatility Level 80", 3794, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "Stamina Increase, Versatility Level 80", 3852, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "Attack Power, Critical Strike Level 80", 3808, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "Spell Power, Mana Regeneration Level 80", 3809, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "Dodge Level, Defense Level 80", 3811, EQUIPMENT_SLOT_SHOULDERS},
+        {ENC, "Spell Power, Critical Strike Level 80", 3810, EQUIPMENT_SLOT_SHOULDERS},
     },
-    [ENCMENU+0x40] = { -- 胸甲
-        {ENC, "Removed胸甲 enchantment",-1,EQUIPMENT_SLOT_CHEST},
-        {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_CHEST},
-        {ENC, "增加 health", 3297, EQUIPMENT_SLOT_CHEST},
-        {ENC, "mana回复", 2381, EQUIPMENT_SLOT_CHEST},
-        {ENC, "韧性 level", 3245, EQUIPMENT_SLOT_CHEST},
-        {ENC, "防御 level", 1953, EQUIPMENT_SLOT_CHEST},
+    [ENCMENU + 0x40] = { -- Chest Armor
+        {ENC, "Removed Chest enchantment", -1, EQUIPMENT_SLOT_CHEST},
+        {ENC, "Increase All Stats", 3832, EQUIPMENT_SLOT_CHEST},
+        {ENC, "Increase Health", 3297, EQUIPMENT_SLOT_CHEST},
+        {ENC, "Mana Regeneration", 2381, EQUIPMENT_SLOT_CHEST},
+        {ENC, "Versatility Level", 3245, EQUIPMENT_SLOT_CHEST},
+        {ENC, "Defense Level", 1953, EQUIPMENT_SLOT_CHEST},
     },
-    [ENCMENU+0xf0] = { -- 腰部
-        {ENC, "Removed腰带 enchantment",-1,EQUIPMENT_SLOT_WAIST},
-        {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_WAIST},
-        {ENC, "增加 health", 3297, EQUIPMENT_SLOT_WAIST},
-        {ENC, "mana回复", 2381, EQUIPMENT_SLOT_WAIST},
-        {ENC, "韧性 level", 3245, EQUIPMENT_SLOT_WAIST},
-        {ENC, "防御 level", 1953, EQUIPMENT_SLOT_WAIST},
+    [ENCMENU + 0xf0] = { -- Waist
+        {ENC, "Removed Waist enchantment", -1, EQUIPMENT_SLOT_WAIST},
+        {ENC, "Increase All Stats", 3832, EQUIPMENT_SLOT_WAIST},
+        {ENC, "Increase Health", 3297, EQUIPMENT_SLOT_WAIST},
+        {ENC, "Mana Regeneration", 2381, EQUIPMENT_SLOT_WAIST},
+        {ENC, "Versatility Level", 3245, EQUIPMENT_SLOT_WAIST},
+        {ENC, "Defense Level", 1953, EQUIPMENT_SLOT_WAIST},
     },
-    [ENCMENU+0x50] = { -- 腿部
-        {ENC, "Removed裤子 enchantment",-1,EQUIPMENT_SLOT_LEGS},
-        {ENC, "增加精神，法术强度[70]", 3719, EQUIPMENT_SLOT_LEGS},
-        {ENC, "增加耐力，法术强度[70]", 3721, EQUIPMENT_SLOT_LEGS},
-        {ENC, "增加耐力，韧性 level[80]", 3853, EQUIPMENT_SLOT_LEGS},
-        {ENC, "增加耐力，敏捷[80]", 3822, EQUIPMENT_SLOT_LEGS},
-        {ENC, "攻击强度，爆击 level[80]", 3823, EQUIPMENT_SLOT_LEGS},
-        {ENC, "法术强度", 2332, EQUIPMENT_SLOT_LEGS},
-        {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_LEGS},
-        {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_LEGS},
+    [ENCMENU + 0x50] = { -- Legs
+        {ENC, "Removed Leg enchantment", -1, EQUIPMENT_SLOT_LEGS},
+        {ENC, "Increase Spirit, Spell Power [70]", 3719, EQUIPMENT_SLOT_LEGS},
+        {ENC, "Increase Stamina, Spell Power [70]", 3721, EQUIPMENT_SLOT_LEGS},
+        {ENC, "Increase Stamina, Versatility Level [80]", 3853, EQUIPMENT_SLOT_LEGS},
+        {ENC, "Increase Stamina, Agility [80]", 3822, EQUIPMENT_SLOT_LEGS},
+        {ENC, "Increase Attack Power, Critical Strike Level [80]", 3823, EQUIPMENT_SLOT_LEGS},
+        {ENC, "Spell Power", 2332, EQUIPMENT_SLOT_LEGS},
+        {ENC, "Attack Power", 3845, EQUIPMENT_SLOT_LEGS},
+        {ENC, "Increase All Stats", 3832, EQUIPMENT_SLOT_LEGS},
     },
-    [ENCMENU+0x60] = { -- 脚部
-        {ENC, "Removed靴子 enchantment",-1,EQUIPMENT_SLOT_FEET},
-        --{ENC, "攻击强度", 1597, EQUIPMENT_SLOT_FEET},
-        {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_FEET},
-        {ENC, "增加耐力，移动速度", 3232, EQUIPMENT_SLOT_FEET},
-        {ENC, "增加敏捷", 983, EQUIPMENT_SLOT_FEET},
-        {ENC, "增加精神", 1147, EQUIPMENT_SLOT_FEET},
-        {ENC, "增加 health， health回复", 3244, EQUIPMENT_SLOT_FEET},
-        {ENC, "命中 level，爆击 level", 3826, EQUIPMENT_SLOT_FEET},
-        {ENC, "增加耐力", 1075, EQUIPMENT_SLOT_FEET},
+    [ENCMENU + 0x60] = { -- Feet
+        {ENC, "Removed Boot enchantment", -1, EQUIPMENT_SLOT_FEET},
+        --{ENC, "Attack Power", 1597, EQUIPMENT_SLOT_FEET},
+        {ENC, "Attack Power", 3845, EQUIPMENT_SLOT_FEET},
+        {ENC, "Increase Stamina, Movement Speed", 3232, EQUIPMENT_SLOT_FEET},
+        {ENC, "Increase Agility", 983, EQUIPMENT_SLOT_FEET},
+        {ENC, "Increase Spirit", 1147, EQUIPMENT_SLOT_FEET},
+        {ENC, "Increase Health, Health Regeneration", 3244, EQUIPMENT_SLOT_FEET},
+        {ENC, "Hit Rating, Critical Strike Rating", 3826, EQUIPMENT_SLOT_FEET},
+        {ENC, "Increase Stamina", 1075, EQUIPMENT_SLOT_FEET},
     },
-    [ENCMENU+0x70] = { -- 护腕
-        {ENC, "Removed护腕 enchantment",-1,EQUIPMENT_SLOT_WRISTS},
-        {ENC, "增加耐力", 3850, EQUIPMENT_SLOT_WRISTS},
-        {ENC, "法术强度", 2332, EQUIPMENT_SLOT_WRISTS},
-        {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_WRISTS},
-        {ENC, "增加精神", 1147, EQUIPMENT_SLOT_WRISTS},
-        {ENC, "精准 level", 3231, EQUIPMENT_SLOT_WRISTS},
-        --{ENC, "增加全属性1", 2661, EQUIPMENT_SLOT_WRISTS},
-        {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_WRISTS},
-        {ENC, "增加智力", 1119, EQUIPMENT_SLOT_WRISTS},
+    [ENCMENU + 0x70] = { -- Wrists
+        {ENC, "Removed Wrist enchantment", -1, EQUIPMENT_SLOT_WRISTS},
+        {ENC, "Increase Stamina", 3850, EQUIPMENT_SLOT_WRISTS},
+        {ENC, "Spell Power", 2332, EQUIPMENT_SLOT_WRISTS},
+        {ENC, "Attack Power", 3845, EQUIPMENT_SLOT_WRISTS},
+        {ENC, "Increase Spirit", 1147, EQUIPMENT_SLOT_WRISTS},
+        {ENC, "Expertise Rating", 3231, EQUIPMENT_SLOT_WRISTS},
+        --{ENC, "Increase All Stats 1", 2661, EQUIPMENT_SLOT_WRISTS},
+        {ENC, "Increase All Stats", 3832, EQUIPMENT_SLOT_WRISTS},
+        {ENC, "Increase Intellect", 1119, EQUIPMENT_SLOT_WRISTS},
     },
-    [ENCMENU+0x80] = { -- 手套
-        {ENC, "Removed enchantment",-1,EQUIPMENT_SLOT_HANDS},
-        {ENC, "爆击 level", 3249, EQUIPMENT_SLOT_HANDS},
-        {ENC, "增加威胁，招架 level", 3253, EQUIPMENT_SLOT_HANDS},
-        --{ENC, "攻击强度", 1603, EQUIPMENT_SLOT_HANDS},
-        {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_HANDS},
-        {ENC, "增加敏捷", 3222, EQUIPMENT_SLOT_HANDS},
-        {ENC, "命中 level", 3234, EQUIPMENT_SLOT_HANDS},
-        {ENC, "精准 level", 3231, EQUIPMENT_SLOT_HANDS},
-        {ENC, "法术强度", 3246, EQUIPMENT_SLOT_HANDS},
+    [ENCMENU + 0x80] = { -- Hands
+        {ENC, "Removed enchantment", -1, EQUIPMENT_SLOT_HANDS},
+        {ENC, "Critical Strike Rating", 3249, EQUIPMENT_SLOT_HANDS},
+        {ENC, "Increase Threat, Parry Rating", 3253, EQUIPMENT_SLOT_HANDS},
+        --{ENC, "Attack Power", 1603, EQUIPMENT_SLOT_HANDS},
+        {ENC, "Attack Power", 3845, EQUIPMENT_SLOT_HANDS},
+        {ENC, "Increase Agility", 3222, EQUIPMENT_SLOT_HANDS},
+        {ENC, "Hit Rating", 3234, EQUIPMENT_SLOT_HANDS},
+        {ENC, "Expertise Rating", 3231, EQUIPMENT_SLOT_HANDS},
+        {ENC, "Spell Power", 3246, EQUIPMENT_SLOT_HANDS},
     },
-    [ENCMENU+0x90] = { -- 背部
-        {ENC, "Removed披风 enchantment",-1,EQUIPMENT_SLOT_BACK},
-        {ENC, "强化潜行，增加敏捷", 3256, EQUIPMENT_SLOT_BACK},
-        {ENC, "增加精神，减少威胁", 3296, EQUIPMENT_SLOT_BACK},
-        {ENC, "防御 level", 1951, EQUIPMENT_SLOT_BACK},
-        {ENC, "急速 level", 3831, EQUIPMENT_SLOT_BACK},
-        {ENC, "增加护甲", 3294, EQUIPMENT_SLOT_BACK},
-        {ENC, "增加敏捷", 1099, EQUIPMENT_SLOT_BACK},
-        {ENC, "奥术抗性", 1262, EQUIPMENT_SLOT_BACK},
-        {ENC, "攻击强度", 3845, EQUIPMENT_SLOT_BACK},
-        {ENC, "增加全属性", 3832, EQUIPMENT_SLOT_BACK},
+    [ENCMENU + 0x90] = { -- Back
+        {ENC, "Removed enchantment", -1, EQUIPMENT_SLOT_BACK},
+        {ENC, "Enhance Stealth, Increase Agility", 3256, EQUIPMENT_SLOT_BACK},
+        {ENC, "Increase Spirit, Reduce Threat", 3296, EQUIPMENT_SLOT_BACK},
+        {ENC, "Defense Rating", 1951, EQUIPMENT_SLOT_BACK},
+        {ENC, "Haste Rating", 3831, EQUIPMENT_SLOT_BACK},
+        {ENC, "Increase Armor", 3294, EQUIPMENT_SLOT_BACK},
+        {ENC, "Increase Agility", 1099, EQUIPMENT_SLOT_BACK},
+        {ENC, "Arcane Resistance", 1262, EQUIPMENT_SLOT_BACK},
+        {ENC, "Attack Power", 3845, EQUIPMENT_SLOT_BACK},
+        {ENC, "Increase All Stats", 3832, EQUIPMENT_SLOT_BACK},
     },
-    [ENCMENU+0xa0] = {-- 主手
-        {ENC, "Removed主手武器 enchantment",-1,EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "增加耐力",  3851, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "命中 level，爆击 level", 3788, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "狂暴",  3789, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "黑魔法",  3790, EQUIPMENT_SLOT_MAINHAND},
-        --{ENC, "法术强度",  3834, EQUIPMENT_SLOT_MAINHAND},
-        --{ENC, "攻击强度",  3833, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "破冰武器",  3239, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, " health护卫",  3241, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "吸血[75]",  3870, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "利刃防护[75]",  3869, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "增加敏捷", 1103, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "增加精神",  3844, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "斩杀",  3225, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "猫鼬",  2673, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "攻击强度", 3827, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "法术强度", 3854, EQUIPMENT_SLOT_MAINHAND},
+    [ENCMENU + 0xa0] = { -- Main Hand
+        {ENC, "Removed main hand weapon enchantment", -1, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Increase Stamina", 3851, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Hit Rating, Critical Strike Rating", 3788, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Berserking", 3789, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Black Magic", 3790, EQUIPMENT_SLOT_MAINHAND},
+        --{ENC, "Spell Power", 3834, EQUIPMENT_SLOT_MAINHAND},
+        --{ENC, "Attack Power", 3833, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Icy Weapon", 3239, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Healthguard", 3241, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Vampiric [75]", 3870, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Blade Ward [75]", 3869, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Increase Agility", 1103, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Increase Spirit", 3844, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Executioner", 3225, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Felstriker", 2673, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Attack Power", 3827, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Spell Power", 3854, EQUIPMENT_SLOT_MAINHAND},
     },
-    [ENCMENU+0xb0]={-- 副手
-        {ENC, "Removed副手武器 enchantment",-1,EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "增加耐力",  3851, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "命中 level，爆击 level", 3788, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "狂暴",  3789, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "黑魔法", 3790, EQUIPMENT_SLOT_OFFHAND},
-        --{ENC, "法术强度", 3834, EQUIPMENT_SLOT_OFFHAND},
-        --{ENC, "攻击强度",  3833, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "破冰武器",  3239, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, " health护卫",  3241, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "吸血[75]",  3870, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "利刃防护[75]",  3869, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "增加敏捷",  1103, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "增加精神",  3844, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "斩杀",  3225, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "猫鼬", 2673, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "攻击强度", 3827, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "法术强度", 3854, EQUIPMENT_SLOT_OFFHAND},
+    [ENCMENU + 0xb0] = { -- Off-hand
+        {ENC, "Removed off-hand weapon enchantment", -1, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Increase Stamina", 3851, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Hit Rating, Critical Strike Rating", 3788, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Berserking", 3789, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Black Magic", 3790, EQUIPMENT_SLOT_OFFHAND},
+        --{ENC, "Spell Power", 3834, EQUIPMENT_SLOT_OFFHAND},
+        --{ENC, "Attack Power", 3833, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Icy Weapon", 3239, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Healthguard", 3241, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Vampiric [75]", 3870, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Blade Ward [75]", 3869, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Increase Agility", 1103, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Increase Spirit", 3844, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Executioner", 3225, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Felstriker", 2673, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Attack Power", 3827, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Spell Power", 3854, EQUIPMENT_SLOT_OFFHAND},
     },
-    [ENCMENU+0xe0]={-- 远程
-        {ENC, "Removed远程武器 enchantment",-1,EQUIPMENT_SLOT_RANGED},
-        {ENC, "增加耐力",  3851, EQUIPMENT_SLOT_RANGED},
-        {ENC, "命中 level，爆击 level", 3788, EQUIPMENT_SLOT_RANGED},
-        --{ENC, "法术强度", 3834, EQUIPMENT_SLOT_RANGED},
-        --{ENC, "攻击强度",  3833, EQUIPMENT_SLOT_RANGED},
-        {ENC, " health护卫",  3241, EQUIPMENT_SLOT_RANGED},
-        {ENC, "增加敏捷",  1103, EQUIPMENT_SLOT_RANGED},
-        {ENC, "增加精神",  3844, EQUIPMENT_SLOT_RANGED},
-        {ENC, "攻击强度", 3827, EQUIPMENT_SLOT_RANGED},
-        {ENC, "法术强度", 3854,EQUIPMENT_SLOT_RANGED},
+    [ENCMENU + 0xe0] = { -- Ranged
+        {ENC, "Removed ranged weapon enchantment", -1, EQUIPMENT_SLOT_RANGED},
+        {ENC, "Increase Stamina", 3851, EQUIPMENT_SLOT_RANGED},
+        {ENC, "Hit Rating, Critical Strike Rating", 3788, EQUIPMENT_SLOT_RANGED},
+        --{ENC, "Spell Power", 3834, EQUIPMENT_SLOT_RANGED},
+        --{ENC, "Attack Power", 3833, EQUIPMENT_SLOT_RANGED},
+        {ENC, "Healthguard", 3241, EQUIPMENT_SLOT_RANGED},
+        {ENC, "Increase Agility", 1103, EQUIPMENT_SLOT_RANGED},
+        {ENC, "Increase Spirit", 3844, EQUIPMENT_SLOT_RANGED},
+        {ENC, "Attack Power", 3827, EQUIPMENT_SLOT_RANGED},
+        {ENC, "Spell Power", 3854, EQUIPMENT_SLOT_RANGED},
     },
-    [ENCMENU+0xc0]={-- 双手
-        {ENC, "Removed双手武器 enchantment",-1,EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "增加耐力",  3851, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "增加敏捷",  1103, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "增加精神",  3844, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "命中 level，爆击 level",  3788, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "狂暴",  3789, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "破冰武器",  3239, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, " health护卫", 3241, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "吸血[75]",  3870, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "利刃防护[75]",  3869, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "斩杀",  3225, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "猫鼬",  2673, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "攻击强度", 3827, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "亡灵伤害", 3247, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "巨人杀手", 3251, EQUIPMENT_SLOT_MAINHAND},
-        {ENC, "法术强度", 3854, EQUIPMENT_SLOT_MAINHAND},
+    [ENCMENU + 0xc0] = { -- Two-Handed
+        {ENC, "Removed two-handed weapon enchantment", -1, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Increase Stamina", 3851, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Increase Agility", 1103, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Increase Spirit", 3844, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Hit Rating, Critical Strike Rating", 3788, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Fury", 3789, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Frost Weapon", 3239, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Healthguard", 3241, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Vampirism [75]", 3870, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Blade Ward [75]", 3869, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Executioner", 3225, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Mongoose", 2673, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Attack Power", 3827, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Undead Slaying", 3247, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Giant Slayer", 3251, EQUIPMENT_SLOT_MAINHAND},
+        {ENC, "Spell Power", 3854, EQUIPMENT_SLOT_MAINHAND},
     },
-    [ENCMENU+0xd0]={-- 盾牌
-        {ENC, "Removed盾牌 enchantment",-1,EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "防御 level", 1952, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "增加智力", 1128, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "盾牌格挡", 2655, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "韧性 level", 3229, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "增加耐力", 1071, EQUIPMENT_SLOT_OFFHAND},
-        {ENC, "格挡值", 2653, EQUIPMENT_SLOT_OFFHAND},
+    [ENCMENU + 0xd0] = { -- Shield
+        {ENC, "Removed shield enchantment", -1, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Defense Rating", 1952, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Increase Intellect", 1128, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Shield Block", 2655, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Resilience Rating", 3229, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Increase Stamina", 1071, EQUIPMENT_SLOT_OFFHAND},
+        {ENC, "Block Value", 2653, EQUIPMENT_SLOT_OFFHAND},
     },
 }
 
-local function Enchanting(player, EncSpell, Eid, money) -- enchantment (玩家, enchantment效果, enchantment位置)
-    local ID=Eid
-    local Nowitem = player:GetEquippedItemBySlot(ID)--得到相应位置物品
-    if (Nowitem and Eid )  then--存在物品
-        --local WType = Nowitem:GetSubClass()--物品类型
-        local WName = Nowitem:GetItemLink()--物品链接
+local function Enchanting(player, EncSpell, Eid, money)-- enchantment (player, enchantment effect, enchantment position)
+    local ID = Eid
+    local Nowitem = player:GetEquippedItemBySlot(ID) -- Get the item equipped in the specified slot
+    if Nowitem and Eid then
+	-- If item exists in the specified slot
+        -- local WType = Nowitem:GetSubClass() -- Item type (if needed)
+        local WName = Nowitem:GetItemLink() -- Get the item's hyperlink
 
         for solt=0,1 do
             local espellid=Nowitem:GetEnchantmentId(solt)
@@ -824,7 +824,7 @@ local function Enchanting(player, EncSpell, Eid, money) -- enchantment (玩家, 
             Nowitem:SetEnchantment(EncSpell, 0)
             player:CastSpell(player, 36937)
             player:SendBroadcastMessage(WName.."Item enchanted.")
-            player:SetHealth(player:GetMaxHealth())--回复 health
+            player:SetHealth(player:GetMaxHealth())--Recover health
             return true
         end
     else
@@ -834,7 +834,7 @@ local function Enchanting(player, EncSpell, Eid, money) -- enchantment (玩家, 
 end
 
 function Stone.AddGossip(player, item, id)
-    player:GossipClearMenu()--Removed菜单
+    player:GossipClearMenu()--Clear Menu
     local Rows=Menu[id] or {}
     local Pteam=player:GetTeam()
     local teamStr,team="",player:GetTeam()
@@ -868,7 +868,8 @@ function Stone.AddGossip(player, item, id)
             player:GossipMenuAddItem(icon, text, 0, intid)
         end
     end
-    if(id > 0)then--添加返回上一页菜单
+    if(id > 0)then
+		--Add a menu option to return to the previous page.
         local length=string.len(string.format("%x",id))
         if(length>1)then
             local temp=bit_and(id,2^((length-1)*4)-1)
@@ -877,16 +878,17 @@ function Stone.AddGossip(player, item, id)
             end
         end
     end
-    if(id ~= MMENU)then--添加返回主菜单
+    if(id ~= MMENU)then
+		--Add a menu option to return to the main menu
         player:GossipMenuAddItem(GOSSIP_ICON_CHAT,"Main Menu", 0, MMENU*0x100)
     else
-        if(player:GetGMRank()>=3)then--是GM
+        if(player:GetGMRank()>=3)then --GM confirmation 
             player:GossipMenuAddItem(GOSSIP_ICON_CHAT,"GM Functions", 0, GMMENU*0x100)
         end
         player:GossipMenuAddItem(GOSSIP_ICON_CHAT, "Total online time:|cFF000080"..Stone.GetTimeASString(player).."|r", 0, MMENU*0x100)
     end
 
-    player:GossipSendMenu(1, item)--发送菜单
+    player:GossipSendMenu(1, item)--Send Menu
 end
 
 local function CanUse(player)
@@ -916,12 +918,12 @@ local function Teleport(player, v, cost)
     -- player:ResetSpellCooldown(SPELL_HEARTHSTONE, true)
     local map,mapid,x,y,z,o=v[2],v[3],v[4], v[5], v[6],v[7] or 0
     local pname=player:GetName()--得到玩家名
-    if(player:Teleport(mapid,x,y,z,o,TELE_TO_GM_MODE))then--传送
-        local Nplayer=GetPlayerByName(pname)--根据玩家名得到玩家
+    if(player:Teleport(mapid,x,y,z,o,TELE_TO_GM_MODE))then --Teleport
+        local Nplayer=GetPlayerByName(pname)-- Get the player based on the player's name.
         if(Nplayer)then
             Nplayer:SendBroadcastMessage("You have arrived "..map)
             if cost and cost > 0 then
-                Nplayer:ModifyMoney(-cost)--扣费
+                Nplayer:ModifyMoney(-cost) --pay cost 
             end
         end
     else
