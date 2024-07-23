@@ -58,18 +58,18 @@ local function ClearAura(player)
 end
 
 local function PlayerChangeMap(_, player)
-	if player:GetMap():IsDungeon() then
-		AddAuraByInstanceType(player, DUNGEON)
-		player:SendAreaTriggerMessage("您已获得地下城强化光环")
-	elseif player:GetMap():IsHeroic() then
-		AddAuraByInstanceType(player, HEROIC)
-		player:SendAreaTriggerMessage("您已获得英雄地下城强化光环")
-	elseif player:GetMap():IsRaid() then
-		AddAuraByInstanceType(player, RAID)
-		player:SendAreaTriggerMessage("您已获得团队地下城强化光环")
-	else
-		ClearAura(player)
-	end
+    if player:GetMap():IsDungeon() then
+        AddAuraByInstanceType(player, DUNGEON)
+        player:SendAreaTriggerMessage("You have gained dungeon enhancement aura.")
+    elseif player:GetMap():IsHeroic() then
+        AddAuraByInstanceType(player, HEROIC)
+        player:SendAreaTriggerMessage("You have gained heroic dungeon enhancement aura.")
+    elseif player:GetMap():IsRaid() then
+        AddAuraByInstanceType(player, RAID)
+        player:SendAreaTriggerMessage("You have gained raid enhancement aura.")
+    else
+        ClearAura(player)
+    end
 end
 
 RegisterPlayerEvent(27, PlayerChangeMap)
