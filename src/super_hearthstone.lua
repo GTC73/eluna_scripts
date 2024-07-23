@@ -82,7 +82,7 @@ function ST.SummonNPC(player, entry)
     local lastTime,nowTime=(ST[guid] or 0),os.time()
 
     if(player:IsInCombat())then
-        player:SendAreaTriggerMessage("不能在战斗中召唤。")
+        player:SendAreaTriggerMessage("Unable to summon during battle.")
     else
         if(nowTime>lastTime)then
             local map=player:GetMap()
@@ -95,16 +95,16 @@ function ST.SummonNPC(player, entry)
                 end
                 local NPC=player:SpawnCreature(entry,x,y,z,0, 3,ST.TIME*1000)
                 if(NPC)then
-                    player:SendAreaTriggerMessage("召唤随身商人成功。")
+                    player:SendAreaTriggerMessage("Summon mobile vendor successfully.")
                     NPC:SetFacingToObject(player)
-                    NPC:SendUnitSay(string.format("%s，你好，需要点什么？",player:GetName()),0)
+                    NPC:SendUnitSay(string.format("%s，Greetings, what can I help you with?",player:GetName()),0)
                     lastTime=os.time()+ST.TIME
                 else
-                    player:SendAreaTriggerMessage("召唤随身商人失败。")
+                    player:SendAreaTriggerMessage("Summon mobile vendor failed.")
                 end
             end
         else
-            player:SendAreaTriggerMessage("召唤NPC不能太频繁。")
+            player:SendAreaTriggerMessage("You can't summon NPC again in such a short time.")
         end
     end
     ST[guid]=lastTime
@@ -175,7 +175,7 @@ end
 
 local function ResetPlayer(player, flag, text)
     player:SetAtLoginFlag(flag)
-    player:SendAreaTriggerMessage("你需要重新登录角色，才能修改"..text.."。")
+    player:SendAreaTriggerMessage("You can only edit after logging in again."..text.."。")
     -- player:SendAreaTriggerMessage("正在返回选择角色菜单")
     -- player:LogoutPlayer(true)
 end
@@ -191,18 +191,18 @@ local Stone={
     GoHome=function(player)--回到家
         player:CastSpell(player, SPELL_HEARTHSTONE, true)
         player:ResetSpellCooldown(SPELL_HEARTHSTONE, true)
-        player:SendBroadcastMessage("已经回到家")
+        player:SendBroadcastMessage("You have returned home.")
     end,
 
     SetHome=function(player)--设置当前位置为家
         local x,y,z,mapId,areaId=player:GetX(),player:GetY(),player:GetZ(),player:GetMapId(),player:GetAreaId()
         player:SetBindPoint(x,y,z,mapId,areaId)
-        player:SendBroadcastMessage("已经设置当前位置为家")
+        player:SendBroadcastMessage("You have set the current location to be home.")
     end,
 
     OpenBank=function(player)--打开银行
         player:SendShowBank(player)
-        player:SendBroadcastMessage("已经打开银行")
+        player:SendBroadcastMessage("Bank opened")
     end,
 
     WeakOut=function(player)--移除复活虚弱
