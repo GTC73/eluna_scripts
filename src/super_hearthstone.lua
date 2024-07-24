@@ -17,6 +17,8 @@ local MENU=2
 local TP=3
 local ENC=4
 
+local BUFFS = {48074, 43223, 36880, 467, 48469, 48162, 23948, 24752, 16877, 10220, 13033, 11735, 10952}
+
 local SPELL_HEARTHSTONE=8690
 
 --GOSSIP_ICON 菜单图标
@@ -71,8 +73,8 @@ local Instances={--副本表
 }
 --随身NPC
 local ST={
-    TIME   = 90, --秒
-    NPCID1 = 190098,
+    TIME   = 600, --秒
+    NPCID1 = 15659, -- Changed to AH
     NPCID2 = 190099,
     --[guid]=lasttime,
 }
@@ -115,8 +117,8 @@ function ST.SummonGNPC(player)--召唤商人
 end
 
 
-function ST.SummonENPC(player)--召唤 enchantment
-    ST.SummonNPC(player, ST.NPCID2)
+function ST.SummonENPC(player)--Summon Auctioneer
+    ST.SummonNPC(player, ST.NPCID1)
 end
 
 -- TODO: DRY
@@ -158,6 +160,14 @@ local function AddAuraToPetByInstanceType(player, instanceType)
         end
     end
 end
+
+function ST.AddBuff(player)
+
+    for _, v in ipairs(BUFFS) do
+            player:AddAura(v, player)
+    end
+end
+
 function ST.AddAuraToPet(player)
     local map = player:GetMap()
     local instanceType
@@ -324,12 +334,15 @@ local Menu={
         {FUNC, "Teleport home",             Stone.GoHome,        GOSSIP_ICON_CHAT,        false,"Teleport to |cFFF0F000Home|r ?"},
         {FUNC, "Set home location",         Stone.SetHome,        GOSSIP_ICON_INTERACT_1, false,"Setting current location as |cFFF0F000Home|r ?"},
         {FUNC, "Bank",                      Stone.OpenBank,        GOSSIP_ICON_MONEY_BAG},
-        {MENU, "Map teleport",              TPMENU,                GOSSIP_ICON_BATTLE},
+	{MENU, "Map teleport",              TPMENU,                GOSSIP_ICON_BATTLE},
         {MENU, "Others",                    MMENU+0x10,            GOSSIP_ICON_INTERACT_1},
         {MENU, "Double enchantments",       ENCMENU,            GOSSIP_ICON_TABARD},
         {FUNC, "Remove dungeons lock",      Stone.UnBind,        GOSSIP_ICON_INTERACT_1, false,"Do you wish to remove all dungeons lock ?"},
         {FUNC, "Summon Vendor",      ST.SummonGNPC,        GOSSIP_ICON_MONEY_BAG},
-        -- {FUNC, "Enchantment Master NPC",   ST.SummonENPC,        GOSSIP_ICON_TABARD},
+        {FUNC, "Auctioneer NPC",   ST.SummonENPC,        GOSSIP_ICON_MONEY_BAG},
+   
+	{FUNC, "Buff Me!",         ST.AddBuff,    GOSSIP_ICON_BATTLE},
+
         {MENU, "Class skills trainer",      MMENU+0x20,            GOSSIP_ICON_BATTLE},
         {MENU, "Weapon skills trainer", MMENU+0x30,            GOSSIP_ICON_BATTLE},
         -- {FUNC, "Force exit combat",      Stone.OutCombat,    GOSSIP_ICON_CHAT},
