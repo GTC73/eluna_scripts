@@ -26,7 +26,7 @@ local GOSSIP_ICON_TAXI            = 2                    -- 传送
 local GOSSIP_ICON_TRAINER         = 3                    -- 训练（书）
 local GOSSIP_ICON_INTERACT_1      = 4                    -- 复活
 local GOSSIP_ICON_INTERACT_2      = 5                    -- 设为我的家
-local GOSSIP_ICON_MONEY_BAG         = 6                    -- 钱袋
+local GOSSIP_ICON_MONEY_BAG       = 6                    -- 钱袋
 local GOSSIP_ICON_TALK            = 7                    -- 申请 说话+黑色点
 local GOSSIP_ICON_TABARD          = 8                    -- 工会（战袍）
 local GOSSIP_ICON_BATTLE          = 9                    -- 加入战场 双剑交叉
@@ -97,7 +97,7 @@ function ST.SummonNPC(player, entry)
                 if(NPC)then
                     player:SendAreaTriggerMessage("Summon mobile vendor successfully.")
                     NPC:SetFacingToObject(player)
-                    NPC:SendUnitSay(string.format("%s，Greetings, what can I help you with?",player:GetName()),0)
+                    NPC:SendUnitSay(string.format("%s，Greetings!!",player:GetName()),0)
                     lastTime=os.time()+ST.TIME
                 else
                     player:SendAreaTriggerMessage("Summon mobile vendor failed.")
@@ -116,7 +116,7 @@ end
 
 
 function ST.SummonENPC(player)--召唤 enchantment
-    ST.SummonNPC(player, ST.NPCID1)
+    ST.SummonNPC(player, ST.NPCID2)
 end
 
 -- TODO: DRY
@@ -304,10 +304,10 @@ local Stone={
         ResetPlayer(player, 0x8, "Face")
     end,
     ResetRace=function(player)
-        ResetPlayer(player, 0x80, "Race")
+        ResetPlayer(player, 0x80, "race")
     end,
     ResetFaction=function(player)
-        ResetPlayer(player, 0x40, "Factions")
+        ResetPlayer(player, 0x40, "Faction")
     end,
     ResetSpell=function(player)
         ResetPlayer(player, 0x2, "All spells")
@@ -322,11 +322,11 @@ local Menu={
         {MENU, "Map teleport",              TPMENU,                GOSSIP_ICON_BATTLE},
         {MENU, "Others",                    MMENU+0x10,            GOSSIP_ICON_INTERACT_1},
         {MENU, "Double enchantments",       ENCMENU,            GOSSIP_ICON_TABARD},
-        {FUNC, "Remove dungeons loc",       Stone.UnBind,        GOSSIP_ICON_INTERACT_1, false,"Do you wish to remove all dungeons lock ?"},
-        {FUNC, "Summon mobile vendor",      ST.SummonGNPC,        GOSSIP_ICON_MONEY_BAG},
-        --{FUNC, "Enchantment Master NPC",   ST.SummonENPC,        GOSSIP_ICON_TABARD},
+        {FUNC, "Remove dungeons lock",      Stone.UnBind,        GOSSIP_ICON_INTERACT_1, false,"Do you wish to remove all dungeons lock ?"},
+        {FUNC, "Summon Vendor",      ST.SummonGNPC,        GOSSIP_ICON_MONEY_BAG},
+        -- {FUNC, "Enchantment Master NPC",   ST.SummonENPC,        GOSSIP_ICON_TABARD},
         {MENU, "Class skills trainer",      MMENU+0x20,            GOSSIP_ICON_BATTLE},
-        {MENU, "Profession skills trainer", MMENU+0x30,            GOSSIP_ICON_BATTLE},
+        {MENU, "Weapon skills trainer", MMENU+0x30,            GOSSIP_ICON_BATTLE},
         -- {FUNC, "Force exit combat",      Stone.OutCombat,    GOSSIP_ICON_CHAT},
         {FUNC, "Instance pet aura",         ST.AddAuraToPet,    GOSSIP_ICON_BATTLE},
     },
@@ -336,7 +336,7 @@ local Menu={
         {FUNC, "Maximize Weapon Skills",  Stone.WSkillsToMax,    GOSSIP_ICON_TRAINER,    false,"Confirm maximize weapon skills ?"},
         {FUNC, "Repair all equipment",    Stone.RepairAll,    GOSSIP_ICON_VENDOR,        false,"Require gold to repair equipment ?"},
         -- {FUNC, "Change name",            Stone.ResetName,    GOSSIP_ICON_CHAT,        false,"Change character name?\n|cFFFFFF00Requires re-login to take effect.|r"},
-        -- {FUNC, "Change appearance",      Stone.ResetFace,    GOSSIP_ICON_CHAT,        false,"Change character appearance?\n|cFFFFFF00Requires re-login to take effect.|r"},
+        {FUNC, "Change appearance",      Stone.ResetFace,    GOSSIP_ICON_CHAT,        false,"Change character appearance?\n|cFFFFFF00Requires re-login to take effect.|r"},
         -- {FUNC, "Change race",            Stone.ResetRace,    GOSSIP_ICON_CHAT,        false,"Change character race?\n|cFFFFFF00Requires re-login to take effect.|r"},
         -- {FUNC, "Change faction",         Stone.ResetFaction,    GOSSIP_ICON_CHAT,        false,"Change character faction?\n|cFFFFFF00Requires re-login to take effect.|r"},
         {FUNC, "Forget all spells",       Stone.ResetSpell,    GOSSIP_ICON_CHAT,        false,"Forget all spells?\n|cFFFFFF00Requires re-login to take effect.|r"},
@@ -874,7 +874,7 @@ function Stone.AddGossip(player, item, id)
         if(length>1)then
             local temp=bit_and(id,2^((length-1)*4)-1)
             if(temp ~= MMENU)then
-                player:GossipMenuAddItem(GOSSIP_ICON_CHAT,"上一页", 0,temp*0x100)
+                player:GossipMenuAddItem(GOSSIP_ICON_CHAT,"Previous Page", 0,temp*0x100)
             end
         end
     end
