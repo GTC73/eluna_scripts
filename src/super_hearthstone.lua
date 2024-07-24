@@ -186,7 +186,7 @@ local Stone={
         local days=math.modf(inGameTime/(24*3600))
         local hours=math.modf((inGameTime-(days*24*3600))/3600)
         local mins=math.modf((inGameTime-(days*24*3600+hours*3600))/60)
-        return days.."天"..hours.."时"..mins.."分"
+        return days.."days"..hours.."hours"..mins.."minutes"
     end,
     GoHome=function(player)--回到家
         player:CastSpell(player, SPELL_HEARTHSTONE, true)
@@ -203,6 +203,11 @@ local Stone={
     OpenBank=function(player)--打开银行
         player:SendShowBank(player)
         player:SendBroadcastMessage("Bank opened")
+    end,
+
+    OpenAH=function(player)--打开银行
+        player:SendAuctionMenu(player)
+        player:SendBroadcastMessage("Auction House opened")
     end,
 
     WeakOut = function(player) -- Remove resurrection sickness
@@ -339,7 +344,7 @@ local Menu={
         {FUNC, "Change appearance",      Stone.ResetFace,    GOSSIP_ICON_CHAT,        false,"Change character appearance?\n|cFFFFFF00Requires re-login to take effect.|r"},
         -- {FUNC, "Change race",            Stone.ResetRace,    GOSSIP_ICON_CHAT,        false,"Change character race?\n|cFFFFFF00Requires re-login to take effect.|r"},
         -- {FUNC, "Change faction",         Stone.ResetFaction,    GOSSIP_ICON_CHAT,        false,"Change character faction?\n|cFFFFFF00Requires re-login to take effect.|r"},
-        {FUNC, "Forget all spells",       Stone.ResetSpell,    GOSSIP_ICON_CHAT,        false,"Forget all spells?\n|cFFFFFF00Requires re-login to take effect.|r"},
+        -- {FUNC, "Forget all spells",       Stone.ResetSpell,    GOSSIP_ICON_CHAT,        false,"Forget all spells?\n|cFFFFFF00Requires re-login to take effect.|r"},
     },
     [GMMENU]={--GM Menu
         {FUNC, "Reset all cooldowns",    Stone.ResetAllCD,        GOSSIP_ICON_INTERACT_1,    false,"Confirm reset all cooldowns ?"},
@@ -885,7 +890,7 @@ function Stone.AddGossip(player, item, id)
         if(player:GetGMRank()>=3)then --GM confirmation 
             player:GossipMenuAddItem(GOSSIP_ICON_CHAT,"GM Functions", 0, GMMENU*0x100)
         end
-        player:GossipMenuAddItem(GOSSIP_ICON_CHAT, "Total online time:|cFF000080"..Stone.GetTimeASString(player).."|r", 0, MMENU*0x100)
+        --player:GossipMenuAddItem(GOSSIP_ICON_CHAT, "Total online time:|cFF000080"..Stone.GetTimeASString(player).."|r", 0, MMENU*0x100)
     end
 
     player:GossipSendMenu(1, item)--Send Menu
